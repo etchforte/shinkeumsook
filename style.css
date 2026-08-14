@@ -16,6 +16,18 @@ body {
     line-height: 1.6;
 }
 
+@font-face {
+    font-family: 'haeong'; 
+    src: url('KMU80HaeongSans.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'sungkok'; 
+    src: url('KMU80SungkokSerif.woff') format('woff'); 
+    font-weight: normal;
+    font-style: normal;
+}
 /* 네비게이션 바 */
 #navbar {
     position: fixed;
@@ -70,11 +82,11 @@ section {
 }
 
 h1 {
-    font-family: 'KMU80SungkokSerif.woff'
+    font-family: 'sungkok'
 }    
 
 h2 {
-    font-family: 'KMU80SungkokSemiSerif.woff'
+    font-family: 'haeong'
     font-size: 2rem;
     margin-bottom: 2rem;
     position: relative;
