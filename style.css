@@ -69,7 +69,12 @@ section {
     text-align: center;
 }
 
+h1 {
+    font-family: 'KMU80SungkokSerif.woff'
+}    
+
 h2 {
+    font-family: 'KMU80SungkokSemiSerif.woff'
     font-size: 2rem;
     margin-bottom: 2rem;
     position: relative;
