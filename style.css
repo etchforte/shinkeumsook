@@ -1,4 +1,190 @@
-/* --- 언어 전환 관련 스타일 추가 --- */
+/* 기본 리셋 및 글로벌 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth; /* 부드러운 스크롤 */
+}
+
+body {
+    background-color: #fafafa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 네비게이션 바 */
+#navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+#navbar .logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+#navbar nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+#navbar nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+#navbar nav a:hover {
+    color: #888;
+}
+
+/* 섹션 공통 스타일 */
+section {
+    min-height: 100vh;
+    padding: 100px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 2px;
+    background: #333;
+    margin: 10px auto 0;
+}
+
+/* 플레이스홀더 이미지 영역 */
+.placeholder-img {
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    margin: 0 auto 2rem;
+    border-radius: 8px;
+}
+
+#exhibition .placeholder-img {
+    width: 100%;
+    height: 400px;
+}
+
+.profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+/* 갤러리 레이아웃 (그리드 적용: 데스크탑 3칸, 모바일 1칸) */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.gallery-item {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 0;
+}
+
+/* 스크롤 애니메이션 클래스 */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 푸터 */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: #222;
+    color: #fff;
+}
+
+/* 텍스트 문단 스타일 (서문/약력) */
+.text-content {
+    text-align: left;
+    margin-top: 2rem;
+}
+
+.text-content p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.bio-list {
+    text-align: left;
+    margin-top: 2rem;
+    padding-left: 20px;
+    line-height: 1.8;
+}
+
+.bio-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* 연락처 정보 스타일 */
+.contact-info {
+    margin-top: 1.5rem;
+    line-height: 1.8;
+}
+
+.contact-info a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/* --- 언어 전환 관련 스타일 --- */
 
 /* 기본 상태 (한국어 모드)에서는 영어를 숨김 */
 .en {
@@ -26,28 +212,6 @@ body.en-mode h2.en {
     display: inline-block !important;
 }
 
-/* 텍스트 문단 스타일 (서문/약력) */
-.text-content {
-    text-align: left;
-    margin-top: 2rem;
-}
-
-.text-content p {
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-}
-
-.bio-list {
-    text-align: left;
-    margin-top: 2rem;
-    padding-left: 20px;
-    line-height: 1.8;
-}
-
-.bio-list li {
-    margin-bottom: 0.5rem;
-}
-
 /* 플로팅 언어 전환 버튼 */
 .lang-btn {
     position: fixed;
@@ -70,4 +234,30 @@ body.en-mode h2.en {
 .lang-btn:hover {
     background-color: #555;
     transform: scale(1.05);
+}
+
+/* 모바일 반응형 (네비게이션 및 여백 조정) */
+@media (max-width: 768px) {
+    #navbar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    #navbar nav ul {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    section {
+        padding: 120px 20px 60px; /* 모바일에서 네비게이션 가림 방지 */
+    }
+    
+    .lang-btn {
+        bottom: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+    }
 }
