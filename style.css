@@ -40,10 +40,10 @@ body {
     align-items: center;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    font-family: 'haeong'
 }
 
 #navbar .logo {
+    font-family: 'sungkok'
     font-size: 1.2rem;
     font-weight: bold;
     letter-spacing: 2px;
