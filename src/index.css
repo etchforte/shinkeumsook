@@ -110,3 +110,18 @@ body {
   transform-origin: bottom;
   pointer-events: none;
 }
+/* 모바일 환경 메뉴바 덮임(z-index) 및 여백(gap) 수정 */
+@media (max-width: 768px) {
+  /* 메뉴 토글 버튼 영역이 열린 메뉴에 덮이지 않도록 z-index 조정 */
+  header .flex.md\:hidden {
+    position: relative;
+    z-index: 100;
+  }
+  
+  /* 모바일 컨트롤 섹션과 메뉴 섹션 사이의 간격(gap) 확보 */
+  header > .md\:hidden.overflow-hidden {
+    position: relative;
+    z-index: 90;
+    margin-top: 1.5rem; /* 24px 간격 추가 */
+  }
+}
