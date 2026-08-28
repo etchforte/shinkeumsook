@@ -418,32 +418,42 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
         </nav>
 
         {/* Mobile controls */}
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex md:hidden items-center gap-4">
+          {/* 1. 한영 토글 버튼 */}
+          <button
+            onClick={onToggleLang}
+            className="text-xs font-semibold px-3 py-1 rounded-full border transition-all"
+            style={{
+              borderColor: scrolled || menuOpen ? "#1c1c1c" : "rgba(250,248,244,0.7)",
+              color: scrolled || menuOpen ? "#1c1c1c" : "#faf8f4",
+              fontFamily: "var(--font-sans)",
+            }}
+          >
+            {isEn ? "KO" : "EN"}
+          </button>
+
+          {/* 2. 햄버거 메뉴 버튼 (겹침 해결된 고정 버전) */}
           <button
             onClick={() => setMenuOpen((v) => !v)}
-            // 버튼 자체의 크기를 w-8 h-8(32px)로 단단하게 고정
             className="relative w-8 h-8 flex items-center justify-center"
             aria-label="Toggle menu"
           >
-            {/* 내부 선들을 배치할 22px 고정 컨테이너 */}
             <div className="relative w-[22px] h-[16px]">
               {[0, 1, 2].map((i) => (
                 <span
                   key={i}
-                  // 선들을 absolute로 띄워서 회전해도 부모 크기에 영향을 안 주도록 설정
                   className="absolute left-0 block transition-all duration-300 origin-center"
                   style={{
                     width: 22,
                     height: 1.5,
                     background: scrolled || menuOpen ? "#1c1c1c" : "#faf8f4",
-                    // 각 선의 초기 세로 위치 (위, 중간, 아래)
                     top: i === 0 ? 0 : i === 1 ? "7px" : "14px",
                     opacity: menuOpen && i === 1 ? 0 : 1,
                     transform: menuOpen
                       ? i === 0 
-                        ? "translateY(7px) rotate(45deg)" // 맨 위 선은 7px 내려서 회전
+                        ? "translateY(7px) rotate(45deg)" 
                         : i === 2 
-                        ? "translateY(-7px) rotate(-45deg)" // 맨 아래 선은 7px 올려서 회전
+                        ? "translateY(-7px) rotate(-45deg)" 
                         : "none"
                       : "none",
                   }}
