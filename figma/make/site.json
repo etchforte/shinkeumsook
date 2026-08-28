@@ -1,0 +1,10 @@
+{
+  "description": "Showcases artist Shin Geum-sook's profile with an interactive, responsive design featuring a dynamic background and a visually engaging artwork display.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
