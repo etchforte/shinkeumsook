@@ -364,22 +364,19 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
 
   return (
     <header
-      // Tailwind로 모바일과 PC의 패딩(px, py)을 다르게 지정
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-5 md:px-8 ${
-        scrolled ? "py-3" : "py-5 md:py-6"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
         background: scrolled || menuOpen ? "rgba(250,248,244,0.97)" : "transparent",
         backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
         boxShadow: scrolled ? "0 1px 0 rgba(0,0,0,0.07)" : "none",
+        padding: scrolled ? "0.9rem 2rem" : "1.5rem 2rem",
       }}
     >
-      {/* 겹침 방지를 위해 gap-4 및 w-full 추가 */}
-      <div className="max-w-6xl mx-auto w-full flex items-center justify-between gap-4">
+      <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <a
           href="#"
-          className="tracking-widest text-sm font-medium transition-opacity hover:opacity-60 truncate"
+          className="tracking-widest text-sm font-medium transition-opacity hover:opacity-60"
           style={{
             fontFamily: "var(--font-display)",
             color: scrolled || menuOpen ? "#1c1c1c" : "#faf8f4",
@@ -500,9 +497,8 @@ export default function App() {
   const portfolioRef = useReveal() as React.RefObject<HTMLElement>
   const contactRef = useReveal() as React.RefObject<HTMLElement>
 
-return (
-    // 기존: <div style={{ background: "#faf8f4", minHeight: "100vh" }}>
-    <div className="overflow-x-hidden w-full" style={{ background: "#faf8f4", minHeight: "100vh" }}>
+  return (
+    <div style={{ background: "#faf8f4", minHeight: "100vh" }}>
       <Navbar isEn={isEn} onToggleLang={() => setIsEn((v) => !v)} />
 
       {/* ── Hero ─────────────────────────────────────────── */}
