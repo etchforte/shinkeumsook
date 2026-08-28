@@ -645,7 +645,7 @@ export default function App() {
               <p
                 className="mt-4 text-center"
                 style={{
-                  fontFamily: isEn ? "var(--font-display)" : "'SungkokSerif', 'Noto Serif KR', serif",
+                  fontFamily: "'SungkokSerif', 'Noto Serif KR', serif",
                   fontSize: "1.8rem",
                   letterSpacing: "0.08em",
                   color: "#1c1c1c",
