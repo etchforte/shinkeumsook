@@ -711,31 +711,39 @@ export default function App() {
           <SectionHeading ko="연락처" en="Contact" isEn={isEn} />
 
           <div
-            className="grid gap-5 text-sm"
+            className="grid gap-2 text-sm"
             style={{ fontFamily: "var(--font-sans)", color: "#3a3633", lineHeight: 1.8 }}
           >
-            {[
-              { icon: "📞", label: "Phone", value: "010-4587-8428", href: "tel:010-4587-8428" },
-              { icon: "✉️", label: "Email", value: "kssook8428@naver.com", href: "mailto:kssook8428@naver.com" },
-              { icon: "📝", label: "Blog", value: "blog.naver.com/delpittore", href: "https://blog.naver.com/delpittore" },
-              { icon: "📸", label: "Instagram", value: "@geumsookshin", href: "https://www.instagram.com/geumsookshin" },
-            ].map((c) => (
-              <div key={c.label} className="flex items-center justify-center gap-3 py-3" style={{ borderBottom: "1px solid #ddd8d0" }}>
-                <span style={{ fontSize: "1rem" }}>{c.icon}</span>
-                <span style={{ color: "#9b9590", minWidth: 70, textAlign: "right" }}>{c.label}</span>
-                <a
-                  href={c.href}
-                  target={c.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="font-medium transition-opacity hover:opacity-50"
-                  style={{ color: "#1c1c1c", textDecoration: "none" }}
+            {/* 정렬을 위해 전체 폭을 제한하는 컨테이너 추가 */}
+            <div className="max-w-sm mx-auto w-full px-4">
+              {[
+                { icon: "📞", label: "Phone", value: "010-4587-8428", href: "tel:010-4587-8428" },
+                { icon: "✉️", label: "Email", value: "kssook8428@naver.com", href: "mailto:kssook8428@naver.com" },
+                { icon: "📝", label: "Blog", value: "blog.naver.com/delpittore", href: "https://blog.naver.com/delpittore" },
+                { icon: "📸", label: "Instagram", value: "@geumsookshin", href: "https://www.instagram.com/geumsookshin" },
+              ].map((c) => (
+                <div 
+                  key={c.label} 
+                  // flex 대신 grid를 사용하여 열 너비를 고정 (아이콘 40px, 라벨 90px, 나머지 값)
+                  className="grid grid-cols-[40px_90px_1fr] items-center py-3 text-left" 
+                  style={{ borderBottom: "1px solid #ddd8d0" }}
                 >
-                  {c.value}
-                </a>
-              </div>
-            ))}
+                  <span className="text-center" style={{ fontSize: "1.1rem" }}>{c.icon}</span>
+                  <span style={{ color: "#9b9590", letterSpacing: "0.02em" }}>{c.label}</span>
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className="font-medium transition-opacity hover:opacity-50 truncate"
+                    style={{ color: "#1c1c1c", textDecoration: "none" }}
+                  >
+                    {c.value}
+                  </a>
+                </div>
+              ))}
+            </div>
 
-            <div className="mt-4 py-4" style={{ color: "#6b6360", lineHeight: 2 }}>
+            <div className="mt-8 py-4 text-center" style={{ color: "#6b6360", lineHeight: 2 }}>
               {isEn ? (
                 <p>A-205, Hyundai Cluster Hangang Misa 3rd<br />165 Misagangbyeon Hangang-ro, Hanam-si, Gyeonggi-do</p>
               ) : (
