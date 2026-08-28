@@ -364,7 +364,7 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex flex-col-reverse"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
         background: scrolled || menuOpen ? "rgba(250,248,244,0.97)" : "transparent",
         backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
@@ -372,25 +372,6 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
         padding: scrolled ? "0.9rem 2rem" : "1.5rem 2rem",
       }}
     >
-       {/* Mobile menu */}
-      <div
-        className="md:hidden overflow-hidden transition-all duration-400"
-        style={{ maxHeight: menuOpen ? 300 : 0 }}
-      >
-        <nav className="flex flex-col pt-4 pb-6 gap-5 px-2">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setMenuOpen(false)}
-              className="text-base font-medium tracking-wide border-b pb-4 transition-opacity hover:opacity-50"
-              style={{ fontFamily: "var(--font-sans)", color: "#1c1c1c", textDecoration: "none", borderColor: "#e8e2da" }}
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
-      </div>
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <a
@@ -472,7 +453,25 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
         </div>
       </div>
 
-     
+      {/* Mobile menu */}
+      <div
+        className="md:hidden overflow-hidden transition-all duration-400"
+        style={{ maxHeight: menuOpen ? 300 : 0 }}
+      >
+        <nav className="flex flex-col pt-4 pb-6 gap-5 px-2">
+          {navLinks.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => setMenuOpen(false)}
+              className="text-base font-medium tracking-wide border-b pb-4 transition-opacity hover:opacity-50"
+              style={{ fontFamily: "var(--font-sans)", color: "#1c1c1c", textDecoration: "none", borderColor: "#e8e2da" }}
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+      </div>
     </header>
   )
 }
