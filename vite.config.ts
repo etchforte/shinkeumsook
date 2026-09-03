@@ -53,7 +53,7 @@ type FigmaSiteConfiguration = {
     icon?: string
   }
   openGraph?: {
-    image?: string
+    image?: 'source/th.gif'
   }
   analytics?: {
     googleAnalyticsId?: string
