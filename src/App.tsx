@@ -227,19 +227,20 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
           <div
             key={aw.id}
             className="absolute coverflow-item"
-            style={{ ...getStyle(idx), width: 260, height: 340 }}
+            // width: 260 고정값을 제거하고 height: 340만 유지합니다.
+            style={{ ...getStyle(idx), height: 340 }}
             onClick={() => setActive(idx)}
             role="button"
             aria-label={isEn ? aw.titleEn : aw.titleKo}
           >
+            {/* 메인 이미지: 높이는 100%(340px)로 채우고, 너비는 원본 비율에 맞게 자동(w-auto) 조절 */}
             <img
               src={aw.url}
               alt={aw.alt}
-              className="w-full h-full object-cover"
+              className="h-full w-auto block"
               draggable={false}
-              style={{ display: "block" }}
             />
-            {/* Reflection */}
+            {/* 반사(Reflection) 효과 */}
             <div
               style={{
                 position: "absolute",
@@ -251,12 +252,13 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
                 opacity: 0.28,
               }}
             >
+              {/* 반사 이미지: 부모 컨테이너(메인 이미지의 너비)를 100% 따라가도록 w-full 적용 */}
               <img
                 src={aw.url}
                 alt=""
                 aria-hidden
-                className="w-full object-cover"
-                style={{ height: 340, transform: "scaleY(-1)", objectPosition: "bottom" }}
+                className="w-full block"
+                style={{ height: 340, transform: "scaleY(-1)", objectPosition: "bottom", objectFit: "fill" }}
                 draggable={false}
               />
               <div
