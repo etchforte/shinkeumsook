@@ -485,10 +485,10 @@ function SectionHeading({ ko, en, isEn }: { ko: string; en: string; isEn: boolea
   )
 }
 
-/* ─── App ────────────────────────────────________________── */
+/* ─── App ────────────────────────────────────────────────── */
 export default function App() {
   const [isEn, setIsEn] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false) // 전시 서문 팝업 상태
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const exhibitionRef = useReveal() as React.RefObject<HTMLElement>
   const aboutRef = useReveal() as React.RefObject<HTMLElement>
@@ -550,7 +550,7 @@ export default function App() {
             className="animate-fade-up-delay-3 text-sm font-light"
             style={{ color: "rgba(250,248,244,0.4)", fontFamily: "var(--font-sans)", marginTop: 4 }}
           >
-            {isEn ? "Gallery LAMER Room 2 (26 Insadong 5-gil, Jongno-gu, Seoul)" : "갤러리 라메르 제2전시실 (서울 종로구 인사동5길 26)"}
+            {isEn ? "Gallery LAMER (26 Insadong 5-gil, Jongno-gu, Seoul)" : "갤러리 라메르 (서울 종로구 인사동5길 26)"}
           </p>
 
           <a
@@ -567,7 +567,7 @@ export default function App() {
         </div>
       </section>
 
-  {/* ── Exhibition (담백한 소개글 + 전시 서문 버튼) ────── */}
+      {/* ── Exhibition ───────────────────────────────────── */}
       <section
         id="exhibition"
         ref={exhibitionRef as React.RefObject<HTMLDivElement>}
@@ -577,7 +577,6 @@ export default function App() {
         <div className="max-w-3xl mx-auto">
           <SectionHeading ko="전시소개" en="Exhibition" isEn={isEn} />
 
-          {/* Poster placeholder */}
           <div
             className="w-full mb-12 flex items-center justify-center text-sm"
             style={{
@@ -591,14 +590,13 @@ export default function App() {
             {isEn ? "POSTER IMAGE" : "포스터 이미지"}
           </div>
 
-          {/* 좌측 정렬 및 내용이 보완된 소개문 */}
           <div 
             className="max-w-2xl mx-auto mb-10 text-base md:text-lg" 
             style={{ fontFamily: "var(--font-sans)", lineHeight: 1.85, color: "#3a3633", textAlign: "left" }}
           >
             {isEn ? (
               <p>
-                Artist Shin Keum Sook presents around 30 oil paintings exploring the meaning of emptying and filling through the small beauties of daily life. Held at Gallery Lamer from October 7 to 12, this exhibition invites us to quiet our busy lives, empty our minds of unnecessary burdens, and fill them anew with the genuine warmth and true value of everyday existence.
+                Artist Shin Keum Sook presents around 30 paintings exploring the themes of emptying and filling through everyday subjects. Held at Gallery Lamer from October 7 to 12, this exhibition invites viewers to step away from busy routines, release unnecessary burdens, and fill that space with the quiet warmth and true value of life.
               </p>
             ) : (
               <p>
@@ -607,7 +605,6 @@ export default function App() {
             )}
           </div>
 
-          {/* 전시 서문 버튼 (중앙 정렬 유지) */}
           <div className="text-center">
             <button
               onClick={() => setIsModalOpen(true)}
@@ -639,7 +636,6 @@ export default function App() {
             className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto p-8 md:p-12 rounded-lg shadow-2xl"
             style={{ background: "#faf8f4", color: "#3a3633" }}
           >
-            {/* 닫기 버튼 */}
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-[#ede8e0]"
@@ -650,7 +646,6 @@ export default function App() {
               </svg>
             </button>
 
-            {/* 팝업 내부 내용 (기존 긴 서문) */}
             <h3 
               className="text-2xl font-normal mb-8 text-center"
               style={{ fontFamily: "var(--font-display)", letterSpacing: "0.05em", color: "#1c1c1c" }}
@@ -664,7 +659,8 @@ export default function App() {
                 <p className="mb-5">Life is a constant cycle of breathing in and breathing out, of letting go and taking in. Just as we must exhale to inhale, and just as the tides ebb and flow, this rhythm of emptying and filling is fundamental to who we are. Yet, we easily lose this balance. Just like trying to inhale without exhaling leaves us gasping, modern life races toward constant accumulation, completely forgetting how to let go.</p>
                 <p className="mb-5">Why are we always trying to get more? Often, it's because we tie our self-worth to what we have—money, achievements, status, and validation. But no matter how great something is, if you pour it into a cup that's already full, it will only spill over or go stale. A mind crowded with attachments, greed, past regrets, and future worries has no room for genuine happiness or new possibilities. Constantly adding to our lives without clearing space first doesn't make us rich; it just leaves us overwhelmed, exhausted, and feeling empty.</p>
                 <p className="mb-5">So, what does it actually mean to empty ourselves? It doesn't mean giving up or throwing everything away. It's simply the wisdom of making room for something better. It's an active choice to take back control of our lives. Just as you need an empty mug for fresh tea, you need a clear mind to welcome true peace and insight. It's about getting back to basics: when we drop the unnecessary desires and stop caring about what others think, what we truly want becomes crystal clear. Making space starts a positive cycle. Once you sweep away old emotions and attachments, the new experiences, knowledge, and love you take in can actually help you grow.</p>
-                <p className="mb-5">In the end, a good life isn't about how much you've piled up. It's about how well you let go and how carefully you choose what to keep. Whenever you feel that overwhelming urge to just keep adding more, take a step back and look at what you're already carrying. Are you holding onto empty desires while ignoring what actually matters? Only by clearing space first can the things we gather become true abundance instead of greed, and bring us real growth instead of unhealthy attachment. Today, instead of reaching for just one more thing, why not practice the courage to let go of a few unnecessary thoughts? Only when the space is clean and open can our lives be filled with what truly shines.</p>
+                <p className="mb-5">In the end, a good life isn't about how much you've piled up. It's about how well you let go and how carefully you choose what to keep. Whenever you feel that overwhelming urge to just keep adding more, take a step back and look at what you're already carrying. Are you holding onto empty desires while ignoring what actually matters?</p>
+                <p>Only by clearing space first can the things we gather become true abundance instead of greed, and bring us real growth instead of unhealthy attachment. Today, instead of reaching for just one more thing, why not practice the courage to let go of a few unnecessary thoughts? Only when the space is clean and open can our lives be filled with what truly shines.</p>
               </div>
             ) : (
               <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.9, fontSize: "0.95rem" }}>
@@ -672,14 +668,15 @@ export default function App() {
                 <p className="mb-5">인생은 끊임없이 비우고 채우는 숨 고르기의 연속입니다. 들숨이 있으면 날숨이 있고, 밀물이 밀려들면 썰물이 빠져나가듯 비움과 채움은 삶을 지탱하는 가장 근본적이고 상대적인 두 축입니다. 그러나 우리는 종종 이 자연스러운 흐름의 균형을 잃곤 합니다. 날숨 없이 들숨만 쉬려 하면 숨이 턱끝까지 차오르듯, 현대인의 삶은 '비움'에 대한 이해와 실천 없이 오직 '채움'만을 향해 질주하고 있습니다.</p>
                 <p className="mb-5">사람들은 왜 그토록 채우는 데 열망할까요? 그것은 채움이 주는 눈앞의 물질적 풍요, 스펙, 권력, 타인의 인정이 곧 자신의 가치를 증명한다고 믿기 때문입니다. 하지만 비워지지 않은 그릇에 아무리 좋은 것을 쏟아부은들 그 내용물은 결국 넘쳐흐르거나 안에서 썩어버리기 마련입니다. 이미 집착과 욕심, 지나간 후회와 미래에 대한 불안으로 가득 찬 마음에는 어떤 진정한 행복이나 새로운 가능성도 들어설 자리가 없습니다. 비움이라는 선행 조건이 생략된 채움은 풍요가 아니라 중첩된 과부하일 뿐이며, 우리를 더욱 조급하고 빈곤하게 만들 뿐입니다.</p>
                 <p className="mb-5">그렇다면 우리가 오해하고 있는 '비움'의 참된 의미는 무엇일까요? 비움은 결코 나약한 포기나 소유의 완전한 상실을 의미하지 않습니다. 비움은 새로운 가치를 맞이하기 위해 공간을 만드는 지혜이자, 내 삶의 주권을 다시 잡는 적극적인 선택입니다. 비움은 공간의 창출입니다. 잔이 비어 있어야 따뜻한 차를 담을 수 있듯, 마음과 삶의 여백을 만들어야 비로소 진정한 통찰과 평안이 찾아옵니다. 비움은 본질로의 회귀입니다. 불필요한 욕망과 타인의 시선이라는 군더더기를 덜어낼 때, 비로소 내가 진정으로 원하는 것이 무엇인지 삶의 본질이 선명하게 드러납니다. 비움은 선순환의 출발점입니다. 묵은 감정과 집착을 비워내는 실천력이 바탕이 될 때, 우리가 새로 채워 넣는 지식과 경험, 사랑은 비로소 건강한 영양이 되어 자신을 성장시킵니다.</p>
-                <p className="mb-5">결국 인생이라는 긴 여정에서 승자는 '얼마나 많이 채웠는가'가 아니라 '얼마나 잘 비우고 바르게 채웠는가'로 결정됩니다. 채우고자 하는 욕망이 요동칠 때일수록 우리는 한 걸음 물러서서 자신의 그릇을 들여다보아야 합니다. 지금 내 마음의 그릇은 무엇으로 차 있는지, 정작 담아야 할 소중한 가치들을 외면한 채 헛된 욕심으로 가득 채우려 하는 것은 아닌지 말입니다. 선명한 비움이 선행될 때, 비로소 채움은 욕심이 아닌 '풍요'가 되고 집착이 아닌 '성숙'이 됩니다. 오늘 하루, 무언가를 더 손에 쥐려 애쓰기보다 내 안의 불필요한 생각을 한숨 덜어내는 '비움의 용기'를 실천해 보는 것은 어떨까요. 잘 비워진 깨끗한 자리 위에서만 우리의 삶은 가장 빛나는 것들로 비로소 꽉 채워질 수 있습니다.</p>
+                <p className="mb-5">결국 인생이라는 긴 여정에서 승자는 '얼마나 많이 채웠는가'가 아니라 '얼마나 잘 비우고 바르게 채웠는가'로 결정됩니다. 채우고자 하는 욕망이 요동칠 때일수록 우리는 한 걸음 물러서서 자신의 그릇을 들여다보아야 합니다. 지금 내 마음의 그릇은 무엇으로 차 있는지, 정작 담아야 할 소중한 가치들을 외면한 채 헛된 욕심으로 가득 채우려 하는 것은 아닌지 말입니다.</p>
+                <p>선명한 비움이 선행될 때, 비로소 채움은 욕심이 아닌 '풍요'가 되고 집착이 아닌 '성숙'이 됩니다. 오늘 하루, 무언가를 더 손에 쥐려 애쓰기보다 내 안의 불필요한 생각을 한숨 덜어내는 '비움의 용기'를 실천해 보는 것은 어떨까요. 잘 비워진 깨끗한 자리 위에서만 우리의 삶은 가장 빛나는 것들로 비로소 꽉 채워질 수 있습니다.</p>
               </div>
             )}
           </div>
         </div>
       )}
 
-      {/* ── About ───────────────────────────────────────── */}
+      {/* ── About (담백한 어조로 수정된 작가 소개) ──────── */}
       <section
         id="about"
         ref={aboutRef as React.RefObject<HTMLDivElement>}
@@ -720,27 +717,26 @@ export default function App() {
 
             {isEn ? (
               <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.85, color: "#3a3633" }}>
-                <p className="mb-4">As a child, artist Shin Keum Sook spent sleepless nights drawing paper dolls and fairy-tale princesses on blank white paper—warm, simple days that became the roots of her artistic inspiration. Unswayed by fleeting trends or flashy superficialities, she has spent her life quietly deepening her inner world to shape her own artistic identity. Her journey is a remarkable story of quiet dedication.</p>
-                <p className="mb-4">After cultivating her artistic foundation at Sejong University (formerly Soodo Women's College of Education), she began her teaching career at Cheonho Middle School. She later taught at Changdeok Girls' High School and Ulsan Jungang High School, planting the seeds of art in countless students. Her lifelong commitment to education extended into leadership roles as an educational supervisor at the Ulsan Metropolitan Office of Education, Vice Principal of Ulsan Shinil Middle School, and Principal of Sangan Middle School, leaving a lasting legacy of true vocation.</p>
-                <p className="mb-4">Even after retiring from education, her creative drive and sharp insight into life never faded. She opened "Bidanae," a traditional Hanok gallery in Seoul's culturally rich Seongbuk-dong—fulfilling a lifelong dream and creating a cozy space for artistic exchange. Recently, she relocated to the Misa district in Hanam, opening the "Delpittore Art Studio." There, she picks up her brush every single day with renewed passion, breathing fresh cultural energy into the local community.</p>
-                <p className="mb-4">In her youth, she believed that true art required grand, magnificent subjects. But as time softened her perspective, her gaze shifted from the colossal to the delicate. Finding deep affection and quiet comfort in a single roadside wildflower, she began capturing the fleeting beauty of flowers and translating it into timeless eternity. Through this journey, Artist Shin has mastered the profound techniques of traditional silk painting while boldly blending them with modern acrylic textures, carving out a completely unique and original artistic world.</p>
-                <p className="mb-6">Artist Shin Keum Sook has walked her path with remarkable resolve, tuning out the noise of the world to follow the singular rhythm of her own calling. Choosing to walk the path true to herself rather than one paved by others, she embodies the steadfast integrity that today's society needs most.</p>
+                <p className="mb-4">Her childhood days spent drawing on blank paper became the warm starting point of artist Shin Keum Sook's creative inspiration. After graduating from Soodo Women's College of Education, she began her career as an art teacher at Cheonho Middle School, dedicating herself to education and inspiring students throughout her long tenure.</p>
+                <p className="mb-4">Following her retirement, she opened the traditional Hanok gallery "Bidanae" in Seongbuk-dong, Seoul, creating a space for artistic exchange, and later established the "Delpittore Art Studio" in Hanam's Misa district to continue her active creative work.</p>
+                <p className="mb-4">Early in her artistic path, she focused on large-scale installations, striving for grand expressions. Over time, however, her perspective shifted toward smaller, delicate life forms. Finding quiet comfort in roadside wildflowers, she began capturing their fleeting beauty into lasting eternity.</p>
+                <p className="mb-6">By combining traditional silk painting with modern acrylic textures, Shin has established a distinct and original artistic world of her own.</p>
                 <ul className="text-sm space-y-2" style={{ color: "#6b6360", borderTop: "1px solid #d4ccc4", paddingTop: "1.2rem" }}>
-                  <li>· 1st–4th Solo Exhibitions (Oct. 2009, Oct. 2014, May 2016, Oct. 2017; Ulsan Video Gallery, Seoul Arts Center)</li>
-                  <li>· Winner of the Grand Prize for Contemporary Art Competition 4 times (1986–88), Participated in 2 Contemporary Art Invitational Exhibitions (1988–89), 3 Gunja Exhibitions, 5 Teachers' Art Exhibitions, Omirang Reveals, Gazing and Thinking, Scent of Autumn, and over 40 other group exhibitions (1985–2014), 7 Invitational Exhibitions at Hanmaeum Hall Contemporary Art Center (1998–2014)</li>
+                  <li>· 1st–4th Solo Exhibitions (Ulsan Video Gallery, Seoul Arts Center)</li>
+                  <li>· Winner of Contemporary Art Competition Grand Prizes, Group & Invitational Exhibitions</li>
                   <li>· Former President of the Ulsan Secondary Art Education Research Association</li>
                   <li>· Current Representative of Delpittore Art Studio, Member of the Professional Artists Association</li>
                 </ul>
               </div>
             ) : (
               <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.85, color: "#3a3633" }}>
-                <p className="mb-4">어릴 적 흰 도화지 위에 종이 인형과 동화 속 예쁜 공주의 모습을 그리며 하얗게 지새우던 순수한 나날들은 작가 신금숙의 예술적 영감이 싹튼 가장 따뜻한 원점이었다. 세상의 거센 유행이나 화려한 겉치레에 절대 흔들리지 않고, 오직 내면의 깊이를 다지며 자신만의 예술적 본질을 묵묵히 완성해 가는 그의 삶은 그 자체로 한 편의 고결한 서사이다. 세종대학교(당시 수도여자사범대학교)에서 예술적 소양을 깊이 다진 그는 천호중학교를 시작으로 교직의 첫발을 내디뎠다. 이후 창덕여고와 울산중앙고에서 미술 교단에 서며 수많은 학생의 마음에 예술의 씨앗을 심어주었고, 울산시교육청 장학사, 울산 신일중학교 교감, 상안중학교 교장으로서 평생을 교육 현장에서 참된 사명감을 다하며 헌신적인 발자취를 남겼다.</p>
-                <p className="mb-4">교직을 은퇴한 이후에도 삶을 향한 치열한 통찰과 실천은 멈추지 않았다. 평생의 숙원이자 염원이었던 한옥 갤러리 '비단애'를 문화와 예술의 향기가 가득한 서울 성북동에 개관하여 예술가들과의 깊은 교류의 장을 마련했고, 최근에는 하남시 미사지구로 자리를 옮겨 '델피토레그림방'을 새롭게 열었다. 이곳에서 매일 붓을 잡고 창작의 열정을 불태우는 동시에, 지역 사회에 싱그러운 문화적 숨결을 불어 넣으며 문화 창출의 중심 역할을 묵묵히 해내고 있다.</p>
-                <p className="mb-4">예술의 길에 처음 들어섰을 때 그는 크고 웅장한 대형 오브제를 다루어야만 진정한 예술이라고 여기며 젊은 날의 치열함을 겪기도 했다. 그러나 세월의 무게가 자연스럽게 스며들면서 시선은 세상의 거대한 것에서 작고 여린 생명체들을 향해 따스하게 머물기 시작했다. 길 곁의 작은 들꽃 한 송이에도 깊은 애정을 느끼고, 그 미약한 생명력으로부터 때로는 커다란 위안을 얻으며, 꽃이 지닌 찰나의 아름다움에 영원이라는 시간을 부여하는 작업을 이어왔다. 이 과정에서 신금숙 작가는 전통적인 실크 염색화의 깊이 있는 전문 영역을 단단하게 개척해 냈고, 여기에 현대적인 아크릴 물감의 질감을 과감하게 접목함으로써 세상에 존재하지 않던 전혀 새롭고 독창적인 예술 세계를 구축해 냈다.</p>
-                <p className="mb-6">세상의 요란한 소음에는 과감히 귀를 닫고, 오직 자신이 선택한 하나의 거대한 파도 위에 온전히 몸을 실은 채 평생을 걸어온 작가 신금숙. 남들이 닦아놓은 길이 아닌, 오직 '나다운 단 하나의 길'을 끝까지 우직하게 걸어가는 그 삶의 태도야말로 오늘날 이 사회가 요구하는 예술가의 모습이 아닐까 한다.</p>
+                <p className="mb-4">어릴 적 흰 도화지 위에 그림을 그리며 하얗게 지새우던 순수한 나날들은 작가 신금숙의 예술적 영감이 싹튼 가장 따뜻한 원점이었다. 수도여자사범대학교에서 예술적 소양을 깊이 다진 그는 천호중학교를 시작으로 미술 교사로서의 첫발을 내디뎠고, 오랜 교직 생활을 통해 학생들의 마음에 예술의 씨앗을 심어주며 묵묵히 헌신적인 발자취를 남겼다.</p>
+                <p className="mb-4">교직 은퇴 후에는 평생의 염원이었던 한옥 갤러리 '비단애'를 서울 성북동에 개관해 예술가들과의 깊은 교류의 장을 마련했으며, 최근 하남시 미사지구에 '델피토레그림방'을 열어 창작의 열정을 이어가고 있다.</p>
+                <p className="mb-4">예술의 길에 처음 들어섰을 때 그는 크고 웅장한 대형 오브제를 다루어야만 진정한 예술이라 여기며 치열한 고민을 겪기도 했다. 그러나 세월의 무게가 스며들면서 시선은 세상의 거대한 것에서 작고 여린 생명체들을 향해 따스하게 머물기 시작했다. 길 곁의 작은 들꽃 하나에도 깊은 애정을 담아 찰나의 아름다움을 영원으로 붙들어 매는 작업은 그렇게 시작되었다.</p>
+                <p className="mb-6">이 과정에서 신금숙 작가는 전통적인 실크 염색화의 깊이 있는 영역을 단단하게 개척해 냈고, 여기에 현대적인 아크릴 물감의 질감을 과감하게 접목함으로써 세상에 존재하지 않던 독창적인 예술 세계를 견고하게 구축해 가고 있다.</p>
                 <ul className="text-sm space-y-2" style={{ color: "#6b6360", borderTop: "1px solid #d4ccc4", paddingTop: "1.2rem" }}>
-                  <li>· 제1~4회 개인전 (2009.10., 2014.10., 2016.5., 2017.10. 울산 영상갤러리, 서울 예술의 전당)</li>
-                  <li>· 현대미술대상 공모전 4회 입상(1986-88), 현대미술 초대전 2회(1988-89), 군자전 3회, 교원미전 5회, 오미랑 드러내다전, 바라보다 생각하다전, 가을향기전 외 그룹전 40여회 출품(1985-2014), 한마음회관 현대예술관 초대전 7회(1998-2014)</li>
+                  <li>· 제1~4회 개인전 (울산 영상갤러리, 서울 예술의 전당)</li>
+                  <li>· 현대미술대상 공모전 입상 및 그룹·초대전 다수 출품</li>
                   <li>· 전) 울산중등미술교육연구회장</li>
                   <li>· 현) 델피토레그림방 대표, 전업미술가협회 회원</li>
                 </ul>
