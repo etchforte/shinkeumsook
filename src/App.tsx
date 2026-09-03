@@ -550,7 +550,7 @@ export default function App() {
             className="animate-fade-up-delay-3 text-sm font-light"
             style={{ color: "rgba(250,248,244,0.4)", fontFamily: "var(--font-sans)", marginTop: 4 }}
           >
-            {isEn ? "Gallery LAMER (26 Insadong 5-gil, Jongno-gu, Seoul)" : "갤러리 라메르 (서울 종로구 인사동5길 26)"}
+            {isEn ? "Gallery LAMER Room 2 (26 Insadong 5-gil, Jongno-gu, Seoul)" : "갤러리 라메르 제2전시실 (서울 종로구 인사동5길 26)"}
           </p>
 
           <a
@@ -567,14 +567,14 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── Exhibition (담백한 소개글 + 전시 서문 버튼) ────── */}
+  {/* ── Exhibition (담백한 소개글 + 전시 서문 버튼) ────── */}
       <section
         id="exhibition"
         ref={exhibitionRef as React.RefObject<HTMLDivElement>}
         className="reveal py-28 px-6"
         style={{ borderTop: "1px solid #e8e2da" }}
       >
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto">
           <SectionHeading ko="전시소개" en="Exhibition" isEn={isEn} />
 
           {/* Poster placeholder */}
@@ -591,39 +591,41 @@ export default function App() {
             {isEn ? "POSTER IMAGE" : "포스터 이미지"}
           </div>
 
-          {/* 담백한 어조의 새로운 소개문 */}
+          {/* 좌측 정렬 및 내용이 보완된 소개문 */}
           <div 
             className="max-w-2xl mx-auto mb-10 text-base md:text-lg" 
-            style={{ fontFamily: "var(--font-sans)", lineHeight: 1.85, color: "#3a3633" }}
+            style={{ fontFamily: "var(--font-sans)", lineHeight: 1.85, color: "#3a3633", textAlign: "left" }}
           >
             {isEn ? (
               <p>
-                Artist Shin Keum Sook presents around 30 oil paintings exploring the meaning of emptying and filling through the small beauties of daily life. Held at Gallery Lamer from October 7 to 12, this exhibition offers a meaningful time to reflect on the precious values of our everyday lives through her artwork.
+                Artist Shin Keum Sook presents around 30 oil paintings exploring the meaning of emptying and filling through the small beauties of daily life. Held at Gallery Lamer from October 7 to 12, this exhibition invites us to quiet our busy lives, empty our minds of unnecessary burdens, and fill them anew with the genuine warmth and true value of everyday existence.
               </p>
             ) : (
               <p>
-                화가 신금숙이 일상의 작은 아름다움을 찾아 비움과 채움의 의미를 담은 30여 점의 작품을 소개합니다. 갤러리 라메르에서 10월 7일부터 12일까지 전개되는 이번 전시에서, 작가의 시선을 통해 일상의 소중한 의미를 되짚어보는 시간이 될 것입니다.
+                화가 신금숙이 일상의 작은 아름다움을 찾아 비움과 채움의 의미를 담은 30여 점의 작품을 선보입니다. 갤러리 라메르에서 10월 7일부터 12일까지 전개되는 이번 전시에서, 우리는 바쁘게 달려온 삶 속에서 불필요한 욕심을 덜어내고 그 비워진 자리에 진정한 삶의 온기와 소중한 가치를 오롯이 채워보는 깊은 위안의 시간을 마주하게 될 것입니다.
               </p>
             )}
           </div>
 
-          {/* 전시 서문 버튼 (클릭 시 팝업 열림) */}
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-all hover:bg-[#1c1c1c] hover:text-[#faf8f4]"
-            style={{
-              borderColor: "#9b7b6b",
-              color: "#1c1c1c",
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.95rem",
-              letterSpacing: "0.08em",
-            }}
-          >
-            <span>{isEn ? "Read Exhibition Preface" : "전시 서문 보기"}</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+          {/* 전시 서문 버튼 (중앙 정렬 유지) */}
+          <div className="text-center">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-all hover:bg-[#1c1c1c] hover:text-[#faf8f4]"
+              style={{
+                borderColor: "#9b7b6b",
+                color: "#1c1c1c",
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.95rem",
+                letterSpacing: "0.08em",
+              }}
+            >
+              <span>{isEn ? "Read Exhibition Preface" : "전시 서문 보기"}</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -662,8 +664,7 @@ export default function App() {
                 <p className="mb-5">Life is a constant cycle of breathing in and breathing out, of letting go and taking in. Just as we must exhale to inhale, and just as the tides ebb and flow, this rhythm of emptying and filling is fundamental to who we are. Yet, we easily lose this balance. Just like trying to inhale without exhaling leaves us gasping, modern life races toward constant accumulation, completely forgetting how to let go.</p>
                 <p className="mb-5">Why are we always trying to get more? Often, it's because we tie our self-worth to what we have—money, achievements, status, and validation. But no matter how great something is, if you pour it into a cup that's already full, it will only spill over or go stale. A mind crowded with attachments, greed, past regrets, and future worries has no room for genuine happiness or new possibilities. Constantly adding to our lives without clearing space first doesn't make us rich; it just leaves us overwhelmed, exhausted, and feeling empty.</p>
                 <p className="mb-5">So, what does it actually mean to empty ourselves? It doesn't mean giving up or throwing everything away. It's simply the wisdom of making room for something better. It's an active choice to take back control of our lives. Just as you need an empty mug for fresh tea, you need a clear mind to welcome true peace and insight. It's about getting back to basics: when we drop the unnecessary desires and stop caring about what others think, what we truly want becomes crystal clear. Making space starts a positive cycle. Once you sweep away old emotions and attachments, the new experiences, knowledge, and love you take in can actually help you grow.</p>
-                <p className="mb-5">In the end, a good life isn't about how much you've piled up. It's about how well you let go and how carefully you choose what to keep. Whenever you feel that overwhelming urge to just keep adding more, take a step back and look at what you're already carrying. Are you holding onto empty desires while ignoring what actually matters?</p>
-                <p>Only by clearing space first can the things we gather become true abundance instead of greed, and bring us real growth instead of unhealthy attachment. Today, instead of reaching for just one more thing, why not practice the courage to let go of a few unnecessary thoughts? Only when the space is clean and open can our lives be filled with what truly shines.</p>
+                <p className="mb-5">In the end, a good life isn't about how much you've piled up. It's about how well you let go and how carefully you choose what to keep. Whenever you feel that overwhelming urge to just keep adding more, take a step back and look at what you're already carrying. Are you holding onto empty desires while ignoring what actually matters? Only by clearing space first can the things we gather become true abundance instead of greed, and bring us real growth instead of unhealthy attachment. Today, instead of reaching for just one more thing, why not practice the courage to let go of a few unnecessary thoughts? Only when the space is clean and open can our lives be filled with what truly shines.</p>
               </div>
             ) : (
               <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.9, fontSize: "0.95rem" }}>
@@ -671,8 +672,7 @@ export default function App() {
                 <p className="mb-5">인생은 끊임없이 비우고 채우는 숨 고르기의 연속입니다. 들숨이 있으면 날숨이 있고, 밀물이 밀려들면 썰물이 빠져나가듯 비움과 채움은 삶을 지탱하는 가장 근본적이고 상대적인 두 축입니다. 그러나 우리는 종종 이 자연스러운 흐름의 균형을 잃곤 합니다. 날숨 없이 들숨만 쉬려 하면 숨이 턱끝까지 차오르듯, 현대인의 삶은 '비움'에 대한 이해와 실천 없이 오직 '채움'만을 향해 질주하고 있습니다.</p>
                 <p className="mb-5">사람들은 왜 그토록 채우는 데 열망할까요? 그것은 채움이 주는 눈앞의 물질적 풍요, 스펙, 권력, 타인의 인정이 곧 자신의 가치를 증명한다고 믿기 때문입니다. 하지만 비워지지 않은 그릇에 아무리 좋은 것을 쏟아부은들 그 내용물은 결국 넘쳐흐르거나 안에서 썩어버리기 마련입니다. 이미 집착과 욕심, 지나간 후회와 미래에 대한 불안으로 가득 찬 마음에는 어떤 진정한 행복이나 새로운 가능성도 들어설 자리가 없습니다. 비움이라는 선행 조건이 생략된 채움은 풍요가 아니라 중첩된 과부하일 뿐이며, 우리를 더욱 조급하고 빈곤하게 만들 뿐입니다.</p>
                 <p className="mb-5">그렇다면 우리가 오해하고 있는 '비움'의 참된 의미는 무엇일까요? 비움은 결코 나약한 포기나 소유의 완전한 상실을 의미하지 않습니다. 비움은 새로운 가치를 맞이하기 위해 공간을 만드는 지혜이자, 내 삶의 주권을 다시 잡는 적극적인 선택입니다. 비움은 공간의 창출입니다. 잔이 비어 있어야 따뜻한 차를 담을 수 있듯, 마음과 삶의 여백을 만들어야 비로소 진정한 통찰과 평안이 찾아옵니다. 비움은 본질로의 회귀입니다. 불필요한 욕망과 타인의 시선이라는 군더더기를 덜어낼 때, 비로소 내가 진정으로 원하는 것이 무엇인지 삶의 본질이 선명하게 드러납니다. 비움은 선순환의 출발점입니다. 묵은 감정과 집착을 비워내는 실천력이 바탕이 될 때, 우리가 새로 채워 넣는 지식과 경험, 사랑은 비로소 건강한 영양이 되어 자신을 성장시킵니다.</p>
-                <p className="mb-5">결국 인생이라는 긴 여정에서 승자는 '얼마나 많이 채웠는가'가 아니라 '얼마나 잘 비우고 바르게 채웠는가'로 결정됩니다. 채우고자 하는 욕망이 요동칠 때일수록 우리는 한 걸음 물러서서 자신의 그릇을 들여다보아야 합니다. 지금 내 마음의 그릇은 무엇으로 차 있는지, 정작 담아야 할 소중한 가치들을 외면한 채 헛된 욕심으로 가득 채우려 하는 것은 아닌지 말입니다.</p>
-                <p>선명한 비움이 선행될 때, 비로소 채움은 욕심이 아닌 '풍요'가 되고 집착이 아닌 '성숙'이 됩니다. 오늘 하루, 무언가를 더 손에 쥐려 애쓰기보다 내 안의 불필요한 생각을 한숨 덜어내는 '비움의 용기'를 실천해 보는 것은 어떨까요. 잘 비워진 깨끗한 자리 위에서만 우리의 삶은 가장 빛나는 것들로 비로소 꽉 채워질 수 있습니다.</p>
+                <p className="mb-5">결국 인생이라는 긴 여정에서 승자는 '얼마나 많이 채웠는가'가 아니라 '얼마나 잘 비우고 바르게 채웠는가'로 결정됩니다. 채우고자 하는 욕망이 요동칠 때일수록 우리는 한 걸음 물러서서 자신의 그릇을 들여다보아야 합니다. 지금 내 마음의 그릇은 무엇으로 차 있는지, 정작 담아야 할 소중한 가치들을 외면한 채 헛된 욕심으로 가득 채우려 하는 것은 아닌지 말입니다. 선명한 비움이 선행될 때, 비로소 채움은 욕심이 아닌 '풍요'가 되고 집착이 아닌 '성숙'이 됩니다. 오늘 하루, 무언가를 더 손에 쥐려 애쓰기보다 내 안의 불필요한 생각을 한숨 덜어내는 '비움의 용기'를 실천해 보는 것은 어떨까요. 잘 비워진 깨끗한 자리 위에서만 우리의 삶은 가장 빛나는 것들로 비로소 꽉 채워질 수 있습니다.</p>
               </div>
             )}
           </div>
