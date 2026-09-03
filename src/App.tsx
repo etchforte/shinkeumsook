@@ -550,7 +550,7 @@ export default function App() {
             className="animate-fade-up-delay-3 text-sm font-light"
             style={{ color: "rgba(250,248,244,0.4)", fontFamily: "var(--font-sans)", marginTop: 4 }}
           >
-            {isEn ? "Gallery LAMER (26 Insadong 5-gil, Jongno-gu, Seoul)" : "갤러리 라메르 (서울 종로구 인사동5길 26)"}
+            {isEn ? "Gallery LAMER Room 2 (26 Insadong 5-gil, Jongno-gu, Seoul)" : "갤러리 라메르 제2전시실 (서울 종로구 인사동5길 26)"}
           </p>
 
           <a
