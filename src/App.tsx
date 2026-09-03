@@ -489,7 +489,8 @@ function SectionHeading({ ko, en, isEn }: { ko: string; en: string; isEn: boolea
 export default function App() {
   const [isEn, setIsEn] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  
   const exhibitionRef = useReveal() as React.RefObject<HTMLElement>
   const aboutRef = useReveal() as React.RefObject<HTMLElement>
   const portfolioRef = useReveal() as React.RefObject<HTMLElement>
@@ -633,8 +634,8 @@ export default function App() {
               </p>
             )}
           </div>
-
-          <div className="text-center">
+{/* 전시 서문 & SNS 공유 이벤트 버튼 */}
+          <div className="text-center flex flex-col items-center gap-4">
             <button
               onClick={() => setIsModalOpen(true)}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-all hover:bg-[#1c1c1c] hover:text-[#faf8f4]"
@@ -649,6 +650,25 @@ export default function App() {
               <span>{isEn ? "Read Exhibition Preface" : "전시 서문 보기"}</span>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            {/* 새롭게 추가된 SNS 공유 이벤트 버튼 */}
+            <button
+              onClick={() => setIsShareModalOpen(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full transition-all hover:opacity-85 shadow-sm"
+              style={{
+                background: "#9b7b6b",
+                color: "#faf8f4",
+                fontFamily: "var(--font-sans)",
+                fontSize: "0.95rem",
+                letterSpacing: "0.05em",
+              }}
+            >
+              <span>{isEn ? "SNS Share Event" : "SNS 공유 이벤트"}</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
             </button>
           </div>
@@ -703,7 +723,104 @@ export default function App() {
             )}
           </div>
         </div>
+      {/* ── SNS 공유 이벤트 팝업 (Modal) ────────────────────────── */}
+      {isShareModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(28,26,24,0.65)", backdropFilter: "blur(6px)" }}
+        >
+          <div
+            className="relative w-full max-w-md overflow-y-auto p-8 md:p-10 rounded-xl shadow-2xl text-center"
+            style={{ background: "#faf8f4", color: "#3a3633" }}
+          >
+            <button
+              onClick={() => setIsShareModalOpen(false)}
+              className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-[#ede8e0]"
+              aria-label="Close modal"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M4 4l10 10M14 4L4 14" stroke="#1c1c1c" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </button>
+
+            <div className="mb-4 text-3xl">🎁</div>
+            
+            <h3
+              className="text-xl font-semibold mb-6"
+              style={{ fontFamily: "var(--font-sans)", letterSpacing: "0.02em", color: "#1c1c1c", wordKeep: "keep-all" }}
+            >
+              {isEn
+                ? "Share the Exhibition & Get a Gift"
+                : "신금숙 개인전 '비움과 채움'\n전시 소식 공유하고 선물 받기"}
+            </h3>
+
+            <div
+              className="mb-8 text-sm md:text-base whitespace-pre-line"
+              style={{ fontFamily: "var(--font-sans)", lineHeight: 1.7, color: "#6b6360", wordKeep: "keep-all" }}
+            >
+              {isEn ? (
+                <>
+                  <p>Share this page on your social media (Instagram, KakaoTalk, Facebook, etc.).</p>
+                  <p className="mt-3">Show your shared post when you visit the exhibition to receive an <strong>'Empty & Fill' postcard set</strong>.</p>
+                  <p className="mt-4 text-xs font-semibold" style={{ color: "#9b7b6b" }}>* First-come, first-served (Limited to 1 set per person)</p>
+                </>
+              ) : (
+                <>
+                  <p>이 페이지를 SNS(인스타그램, 카카오톡 단체 채팅방, 페이스북 등)에 공유해주세요.</p>
+                  <p className="mt-3">공유하신 후 전시장을 찾은 분께<br/><strong>'비움과 채움' 엽서 세트</strong>를 선물로 드립니다.</p>
+                  <p className="mt-4 text-xs font-semibold" style={{ color: "#9b7b6b" }}>* 선착순, 1인 1세트 한정</p>
+                </>
+              )}
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                onClick={async () => {
+                  const shareData = {
+                    title: isEn ? "Shin Keum Sook Solo Exhibition - Empty & Fill" : "신금숙 개인전 '비움과 채움'",
+                    text: isEn ? "Join us at the exhibition to find the true value of emptying and filling." : "일상의 아름다움을 찾아 비움과 채움의 의미를 담은 신금숙 작가의 개인전에 초대합니다.",
+                    url: window.location.href,
+                  };
+                  if (navigator.share) {
+                    try {
+                      await navigator.share(shareData);
+                    } catch (err) {
+                      console.error("Share failed:", err);
+                    }
+                  } else {
+                    alert(isEn ? "Sharing is not supported on this browser. Please copy the link instead." : "이 기기에서는 공유 기능을 지원하지 않습니다. 링크 복사를 이용해 주세요.");
+                  }
+                }}
+                className="w-full sm:w-auto px-6 py-3 rounded-full flex items-center justify-center gap-2 transition-all hover:opacity-85 shadow-sm"
+                style={{ background: "#1c1c1c", color: "#faf8f4", fontSize: "0.95rem", fontFamily: "var(--font-sans)" }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                  <polyline points="16 6 12 2 8 6"></polyline>
+                  <line x1="12" y1="2" x2="12" y2="15"></line>
+                </svg>
+                <span>{isEn ? "Share Link" : "링크 공유하기"}</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert(isEn ? "Link copied to clipboard!" : "링크가 클립보드에 복사되었습니다!");
+                }}
+                className="w-full sm:w-auto px-6 py-3 rounded-full border flex items-center justify-center gap-2 transition-all hover:bg-[#ede8e0]"
+                style={{ borderColor: "#d4ccc4", color: "#1c1c1c", fontSize: "0.95rem", fontFamily: "var(--font-sans)" }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>{isEn ? "Copy Link" : "링크 복사"}</span>
+              </button>
+            </div>
+          </div>
+        </div>
       )}
+
 
       {/* ── About (담백한 어조로 수정된 작가 소개) ──────── */}
       <section
