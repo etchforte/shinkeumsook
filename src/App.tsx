@@ -586,7 +586,7 @@ export default function App() {
             }}
             onMouseEnter={(e) => {
               const video = e.currentTarget.querySelector("video");
-              if (video && window.innerWidth > 768) video.play();
+              if (video && window.innerWidth > 768 && !video.dataset.error) video.play().catch(() => {});
             }}
             onMouseLeave={(e) => {
               const video = e.currentTarget.querySelector("video");
@@ -599,16 +599,15 @@ export default function App() {
             <video
               ref={(node) => {
                 if (!node) return;
-                // 모바일 및 스크롤 감지를 위한 Observer 설정
                 const observer = new IntersectionObserver(
                   ([entry]) => {
-                    if (entry.isIntersecting) {
+                    if (entry.isIntersecting && !node.dataset.error) {
                       node.play().catch(() => {});
                     } else {
                       node.pause();
                     }
                   },
-                  { threshold: 0.4 } // 화면에 40% 이상 들어왔을 때 재생
+                  { threshold: 0.4 }
                 );
                 observer.observe(node);
               }}
@@ -616,6 +615,7 @@ export default function App() {
               muted
               loop
               playsInline
+              onError={(e) => { (e.currentTarget as HTMLVideoElement).dataset.error = "1" }}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-101"
             />
           </div>
@@ -722,99 +722,198 @@ export default function App() {
           </div>
         </div>
       )}
-      {/* ── SNS 공유 이벤트 팝업 (Modal) ────────────────────────── */}
+      {/* ── SNS 공유 이벤트 팝업 ─────────────────────────────── */}
       {isShareModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: "rgba(28,26,24,0.65)", backdropFilter: "blur(6px)" }}
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center"
+          style={{ background: "rgba(20,18,16,0.72)", backdropFilter: "blur(8px)" }}
+          onClick={(e) => { if (e.target === e.currentTarget) setIsShareModalOpen(false) }}
         >
           <div
-            className="relative w-full max-w-md overflow-y-auto p-8 md:p-10 rounded-xl shadow-2xl text-center"
-            style={{ background: "#faf8f4", color: "#3a3633" }}
+            className="relative w-full sm:max-w-[440px] overflow-hidden"
+            style={{
+              background: "#faf8f4",
+              borderRadius: "20px 20px 0 0",
+              boxShadow: "0 -8px 60px rgba(0,0,0,0.25)",
+            }}
           >
-            <button
-              onClick={() => setIsShareModalOpen(false)}
-              className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-[#ede8e0]"
-              aria-label="Close modal"
-            >
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M4 4l10 10M14 4L4 14" stroke="#1c1c1c" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
-
-            <div className="mb-4 text-3xl">🎁</div>
-            
-            <h3
-              className="text-xl font-semibold mb-6"
-              style={{ fontFamily: "var(--font-sans)", letterSpacing: "0.02em", color: "#1c1c1c", wordKeep: "keep-all" }}
-            >
-              {isEn
-                ? "Share the Exhibition & Get a Gift"
-                : "신금숙 개인전 '비움과 채움'\n전시 소식 공유하고 선물 받기"}
-            </h3>
-
+            {/* ─ 상단 다크 헤더 */}
             <div
-              className="mb-8 text-sm md:text-base whitespace-pre-line"
-              style={{ fontFamily: "var(--font-sans)", lineHeight: 1.7, color: "#6b6360", wordKeep: "keep-all" }}
+              className="relative px-8 pt-10 pb-8 text-center overflow-hidden"
+              style={{ background: "#1c1a18" }}
             >
-              {isEn ? (
-                <>
-                  <p>Share this page on your social media (Instagram, KakaoTalk, Facebook, etc.).</p>
-                  <p className="mt-3">Show your shared post when you visit the exhibition to receive an <strong>'Empty & Fill' postcard set</strong>.</p>
-                  <p className="mt-4 text-xs font-semibold" style={{ color: "#9b7b6b" }}>* First-come, first-served (Limited to 1 set per person)</p>
-                </>
-              ) : (
-                <>
-                  <p>이 페이지를 SNS(인스타그램, 카카오톡 단체 채팅방, 페이스북 등)에 공유해주세요.</p>
-                  <p className="mt-3">공유하신 후 전시장을 찾은 분께<br/><strong>'비움과 채움' 엽서 세트</strong>를 선물로 드립니다.</p>
-                  <p className="mt-4 text-xs font-semibold" style={{ color: "#9b7b6b" }}>* 선착순, 1인 1세트 한정</p>
-                </>
-              )}
+              {/* 닫기 버튼 */}
+              <button
+                onClick={() => setIsShareModalOpen(false)}
+                className="absolute top-5 right-5 flex items-center justify-center transition-opacity hover:opacity-50"
+                aria-label="Close"
+                style={{ color: "rgba(250,248,244,0.5)" }}
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                </svg>
+              </button>
+
+              {/* 장식 선 */}
+              <div className="flex items-center justify-center gap-3 mb-5">
+                <div style={{ width: 28, height: 1, background: "rgba(250,248,244,0.2)" }} />
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="3" stroke="rgba(155,123,107,0.9)" strokeWidth="1" />
+                  <circle cx="8" cy="8" r="7" stroke="rgba(155,123,107,0.35)" strokeWidth="0.8" />
+                </svg>
+                <div style={{ width: 28, height: 1, background: "rgba(250,248,244,0.2)" }} />
+              </div>
+
+              <p
+                className="text-xs tracking-[0.22em] mb-3"
+                style={{ color: "rgba(250,248,244,0.45)", fontFamily: "var(--font-sans)" }}
+              >
+                {isEn ? "SPECIAL EVENT" : "이벤트 안내"}
+              </p>
+
+              <h3
+                className="text-2xl font-normal leading-snug"
+                style={{
+                  fontFamily: isEn ? "var(--font-display)" : "'SungkokSerif', 'Noto Serif KR', serif",
+                  color: "#faf8f4",
+                  letterSpacing: isEn ? "0.02em" : "0.06em",
+                }}
+              >
+                {isEn ? "Share & Receive" : "공유하고 선물 받기"}
+              </h3>
+
+              {/* 엽서 일러스트 힌트 — 선으로 그린 미니 카드 */}
+              <div className="mt-6 flex justify-center">
+                <svg width="88" height="60" viewBox="0 0 88 60" fill="none">
+                  <rect x="1" y="1" width="86" height="58" rx="4" stroke="rgba(250,248,244,0.12)" strokeWidth="1" />
+                  <rect x="6" y="6" width="76" height="48" rx="2" stroke="rgba(250,248,244,0.07)" strokeWidth="1" />
+                  {/* 우표 자리 */}
+                  <rect x="62" y="8" width="16" height="20" rx="1.5" stroke="rgba(155,123,107,0.5)" strokeWidth="0.8" />
+                  <rect x="65" y="11" width="10" height="14" rx="1" fill="rgba(155,123,107,0.12)" />
+                  {/* 주소 줄 */}
+                  <line x1="8" y1="36" x2="52" y2="36" stroke="rgba(250,248,244,0.15)" strokeWidth="0.8" />
+                  <line x1="8" y1="42" x2="44" y2="42" stroke="rgba(250,248,244,0.1)" strokeWidth="0.8" />
+                  <line x1="8" y1="48" x2="36" y2="48" stroke="rgba(250,248,244,0.07)" strokeWidth="0.8" />
+                  {/* 꽃 모티프 */}
+                  <circle cx="24" cy="20" r="6" stroke="rgba(250,248,244,0.18)" strokeWidth="0.8" />
+                  <circle cx="24" cy="20" r="2.5" fill="rgba(155,123,107,0.3)" />
+                  <line x1="24" y1="13" x2="24" y2="11" stroke="rgba(250,248,244,0.2)" strokeWidth="0.8" />
+                  <line x1="24" y1="27" x2="24" y2="29" stroke="rgba(250,248,244,0.2)" strokeWidth="0.8" />
+                  <line x1="17" y1="20" x2="15" y2="20" stroke="rgba(250,248,244,0.2)" strokeWidth="0.8" />
+                  <line x1="31" y1="20" x2="33" y2="20" stroke="rgba(250,248,244,0.2)" strokeWidth="0.8" />
+                </svg>
+              </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            {/* ─ 하단 크림 본문 */}
+            <div className="px-8 pt-7 pb-8">
+              {/* 본문 설명 */}
+              <div
+                className="text-sm leading-relaxed text-center mb-6"
+                style={{ fontFamily: "var(--font-sans)", color: "#5a5350", lineHeight: 1.85 }}
+              >
+                {isEn ? (
+                  <>
+                    <p>Share this exhibition page on your social media<br />(Instagram · KakaoTalk · Facebook)</p>
+                    <p className="mt-4">
+                      Show us your post at the gallery entrance<br />
+                      to receive a special
+                      {" "}<span style={{ color: "#1c1c1c", fontWeight: 600 }}>"Empty &amp; Fill" postcard set</span>.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p>이 페이지를 SNS에 공유해 주세요<br />(인스타그램 · 카카오톡 · 페이스북)</p>
+                    <p className="mt-4">
+                      공유 후 전시장을 방문하실 때 보여주시면<br />
+                      <span style={{ color: "#1c1c1c", fontWeight: 600 }}>'비움과 채움' 엽서 세트</span>를 드립니다.
+                    </p>
+                  </>
+                )}
+              </div>
+
+              {/* 선착순 뱃지 */}
+              <div
+                className="flex items-center justify-center gap-2 mb-7"
+                style={{
+                  background: "#f3ede5",
+                  borderRadius: 8,
+                  padding: "8px 16px",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                  <circle cx="6.5" cy="6.5" r="5.5" stroke="#9b7b6b" strokeWidth="1" />
+                  <path d="M6.5 4v3l2 1" stroke="#9b7b6b" strokeWidth="1" strokeLinecap="round" />
+                </svg>
+                <span
+                  className="text-xs tracking-wide"
+                  style={{ fontFamily: "var(--font-sans)", color: "#9b7b6b" }}
+                >
+                  {isEn ? "First-come, first-served · 1 set per person" : "선착순 증정 · 1인 1세트 한정"}
+                </span>
+              </div>
+
+              {/* 공유 버튼 */}
               <button
                 onClick={async () => {
                   const shareData = {
-                    title: isEn ? "Shin Keum Sook Solo Exhibition - Empty & Fill" : "신금숙 개인전 '비움과 채움'",
-                    text: isEn ? "Join us at the exhibition to find the true value of emptying and filling." : "일상의 아름다움을 찾아 비움과 채움의 의미를 담은 신금숙 작가의 개인전에 초대합니다.",
+                    title: isEn ? "Shin Keum Sook Solo Exhibition — Empty & Fill" : "신금숙 개인전 '비움과 채움'",
+                    text: isEn
+                      ? "Join us at the exhibition to find the true value of emptying and filling."
+                      : "일상의 아름다움을 찾아 비움과 채움의 의미를 담은 신금숙 작가의 개인전에 초대합니다.",
                     url: window.location.href,
-                  };
+                  }
                   if (navigator.share) {
-                    try {
-                      await navigator.share(shareData);
-                    } catch (err) {
-                      console.error("Share failed:", err);
-                    }
+                    try { await navigator.share(shareData) }
+                    catch {}
                   } else {
-                    alert(isEn ? "Sharing is not supported on this browser. Please copy the link instead." : "이 기기에서는 공유 기능을 지원하지 않습니다. 링크 복사를 이용해 주세요.");
+                    await navigator.clipboard.writeText(window.location.href)
+                    alert(isEn ? "Link copied to clipboard!" : "링크가 클립보드에 복사되었습니다!")
                   }
                 }}
-                className="w-full sm:w-auto px-6 py-3 rounded-full flex items-center justify-center gap-2 transition-all hover:opacity-85 shadow-sm"
-                style={{ background: "#1c1c1c", color: "#faf8f4", fontSize: "0.95rem", fontFamily: "var(--font-sans)" }}
+                className="w-full flex items-center justify-center gap-2.5 py-4 transition-all hover:opacity-85 active:scale-[0.98]"
+                style={{
+                  background: "#1c1a18",
+                  color: "#faf8f4",
+                  borderRadius: 12,
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.9rem",
+                  letterSpacing: "0.08em",
+                  marginBottom: 10,
+                }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                  <polyline points="16 6 12 2 8 6"></polyline>
-                  <line x1="12" y1="2" x2="12" y2="15"></line>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
                 </svg>
-                <span>{isEn ? "Share Link" : "링크 공유하기"}</span>
+                {isEn ? "Share Exhibition" : "전시 공유하기"}
               </button>
 
               <button
-                onClick={() => {
-                  navigator.clipboard.writeText(window.location.href);
-                  alert(isEn ? "Link copied to clipboard!" : "링크가 클립보드에 복사되었습니다!");
+                onClick={async () => {
+                  await navigator.clipboard.writeText(window.location.href)
+                  alert(isEn ? "Link copied!" : "링크가 복사되었습니다!")
                 }}
-                className="w-full sm:w-auto px-6 py-3 rounded-full border flex items-center justify-center gap-2 transition-all hover:bg-[#ede8e0]"
-                style={{ borderColor: "#d4ccc4", color: "#1c1c1c", fontSize: "0.95rem", fontFamily: "var(--font-sans)" }}
+                className="w-full flex items-center justify-center gap-2.5 py-3.5 transition-all hover:bg-[#ede8e0] active:scale-[0.98]"
+                style={{
+                  border: "1px solid #ddd8d0",
+                  color: "#5a5350",
+                  borderRadius: 12,
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "0.85rem",
+                  letterSpacing: "0.05em",
+                }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                 </svg>
-                <span>{isEn ? "Copy Link" : "링크 복사"}</span>
+                {isEn ? "Copy Link" : "링크 복사"}
               </button>
+            </div>
+
+            {/* 바텀 핸들 (모바일 sheet 느낌) */}
+            <div className="sm:hidden absolute top-3 left-0 right-0 flex justify-center pointer-events-none">
+              <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(250,248,244,0.3)" }} />
             </div>
           </div>
         </div>
