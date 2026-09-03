@@ -577,17 +577,19 @@ export default function App() {
         <div className="max-w-3xl mx-auto">
           <SectionHeading ko="전시소개" en="Exhibition" isEn={isEn} />
 
+        {/* Poster placeholder -> 이미지로 변경 */}
           <div
-            className="w-full mb-12 flex items-center justify-center text-sm"
+            className="w-full mb-12 flex items-center justify-center overflow-hidden"
             style={{
               height: 420,
               background: "#ede8e0",
-              color: "#9b9590",
-              fontFamily: "var(--font-sans)",
-              letterSpacing: "0.1em",
             }}
           >
-            {isEn ? "POSTER IMAGE" : "포스터 이미지"}
+            <img
+              src="source/phoster.jpg"
+              alt={isEn ? "Exhibition Poster" : "전시 포스터"}
+              className="w-full h-full object-contain"
+            />
           </div>
 
           <div 
