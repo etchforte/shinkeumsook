@@ -76,14 +76,13 @@ const artworks: Artwork[] = [
 ]
 
 /* ─── Floating Orb Hero Canvas ───────────────────────────── */
-// Each orb: soft glowing circle that drifts with gentle sinusoidal motion
 const ORB_PALETTE = [
-  { h: 340, s: 28, l: 62 }, // dusty rose
-  { h: 22,  s: 35, l: 60 }, // warm apricot
-  { h: 200, s: 22, l: 58 }, // muted steel blue
-  { h: 270, s: 20, l: 62 }, // soft lavender
-  { h: 155, s: 18, l: 52 }, // sage green
-  { h: 45,  s: 32, l: 60 }, // warm gold
+  { h: 340, s: 28, l: 62 },
+  { h: 22,  s: 35, l: 60 },
+  { h: 200, s: 22, l: 58 },
+  { h: 270, s: 20, l: 62 },
+  { h: 155, s: 18, l: 52 },
+  { h: 45,  s: 32, l: 60 },
 ]
 
 function HeroCanvas() {
@@ -149,7 +148,6 @@ function HeroCanvas() {
     }
 
     draw()
-
     const obs = new ResizeObserver(resize)
     obs.observe(canvas)
 
@@ -179,7 +177,6 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
     return () => window.removeEventListener("keydown", onKey)
   }, [prev, next])
 
-  // Touch / swipe support
   const touchX = useRef<number | null>(null)
   const onTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX }
   const onTouchEnd = (e: React.TouchEvent) => {
@@ -215,7 +212,6 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
 
   return (
     <div className="w-full flex flex-col items-center gap-10 select-none">
-      {/* Stage */}
       <div
         ref={containerRef}
         className="coverflow-stage relative w-full flex items-center justify-center"
@@ -227,20 +223,17 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
           <div
             key={aw.id}
             className="absolute coverflow-item"
-            // width: 260 고정값을 제거하고 height: 340만 유지합니다.
             style={{ ...getStyle(idx), height: 340 }}
             onClick={() => setActive(idx)}
             role="button"
             aria-label={isEn ? aw.titleEn : aw.titleKo}
           >
-            {/* 메인 이미지: 높이는 100%(340px)로 채우고, 너비는 원본 비율에 맞게 자동(w-auto) 조절 */}
             <img
               src={aw.url}
               alt={aw.alt}
-              className="h-full w-auto block"
+              className="h-full w-auto block object-cover"
               draggable={false}
             />
-            {/* 반사(Reflection) 효과 */}
             <div
               style={{
                 position: "absolute",
@@ -252,7 +245,6 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
                 opacity: 0.28,
               }}
             >
-              {/* 반사 이미지: 부모 컨테이너(메인 이미지의 너비)를 100% 따라가도록 w-full 적용 */}
               <img
                 src={aw.url}
                 alt=""
@@ -273,7 +265,6 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
         ))}
       </div>
 
-      {/* Caption */}
       <div className="text-center mt-8" style={{ minHeight: 72 }}>
         <p className="font-serif text-xl font-semibold tracking-wide">
           {isEn ? art.titleEn : art.titleKo}
@@ -286,7 +277,6 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
         </p>
       </div>
 
-      {/* Controls */}
       <div className="flex items-center gap-6 -mt-4">
         <button
           onClick={prev}
@@ -300,7 +290,6 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
           </svg>
         </button>
 
-        {/* Dot indicators */}
         <div className="flex gap-1.5">
           {artworks.map((_, i) => (
             <button
@@ -366,19 +355,19 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-5 md:px-8 ${
+        scrolled ? "py-3" : "py-5 md:py-6"
+      }`}
       style={{
         background: scrolled || menuOpen ? "rgba(250,248,244,0.97)" : "transparent",
         backdropFilter: scrolled || menuOpen ? "blur(12px)" : "none",
         boxShadow: scrolled ? "0 1px 0 rgba(0,0,0,0.07)" : "none",
-        padding: scrolled ? "0.9rem 2rem" : "1.5rem 2rem",
       }}
     >
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* Logo */}
+      <div className="max-w-6xl mx-auto w-full flex items-center justify-between gap-4">
         <a
           href="#"
-          className="tracking-widest text-sm font-medium transition-opacity hover:opacity-60"
+          className="tracking-widest text-sm font-medium transition-opacity hover:opacity-60 truncate"
           style={{
             fontFamily: "var(--font-display)",
             color: scrolled || menuOpen ? "#1c1c1c" : "#faf8f4",
@@ -389,7 +378,6 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
           Shin Keum Sook
         </a>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((l) => (
             <a
@@ -419,9 +407,7 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
           </button>
         </nav>
 
-        {/* Mobile controls */}
         <div className="flex md:hidden items-center gap-4">
-          {/* 1. 한영 토글 버튼 */}
           <button
             onClick={onToggleLang}
             className="text-xs font-semibold px-3 py-1 rounded-full border transition-all"
@@ -434,7 +420,6 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
             {isEn ? "KO" : "EN"}
           </button>
 
-          {/* 2. 햄버거 메뉴 버튼 (겹침 해결된 고정 버전) */}
           <button
             onClick={() => setMenuOpen((v) => !v)}
             className="relative w-8 h-8 flex items-center justify-center"
@@ -466,7 +451,6 @@ function Navbar({ isEn, onToggleLang }: { isEn: boolean; onToggleLang: () => voi
         </div>
       </div>
 
-      {/* Mobile menu */}
       <div
         className="md:hidden overflow-hidden transition-all duration-400"
         style={{ maxHeight: menuOpen ? 300 : 0 }}
@@ -501,9 +485,10 @@ function SectionHeading({ ko, en, isEn }: { ko: string; en: string; isEn: boolea
   )
 }
 
-/* ─── App ────────────────────────────────────────────────── */
+/* ─── App ────────────────────────────────________________── */
 export default function App() {
   const [isEn, setIsEn] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false) // 전시 서문 팝업 상태
 
   const exhibitionRef = useReveal() as React.RefObject<HTMLElement>
   const aboutRef = useReveal() as React.RefObject<HTMLElement>
@@ -511,7 +496,7 @@ export default function App() {
   const contactRef = useReveal() as React.RefObject<HTMLElement>
 
   return (
-    <div style={{ background: "#faf8f4", minHeight: "100vh" }}>
+    <div className="overflow-x-hidden w-full" style={{ background: "#faf8f4", minHeight: "100vh" }}>
       <Navbar isEn={isEn} onToggleLang={() => setIsEn((v) => !v)} />
 
       {/* ── Hero ─────────────────────────────────────────── */}
@@ -522,13 +507,11 @@ export default function App() {
       >
         <HeroCanvas />
 
-        {/* Subtle vignette */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(14,12,10,0.55) 100%)" }}
         />
 
-        {/* Text */}
         <div className="relative z-10 px-6 flex flex-col items-center gap-5">
           <p
             className="animate-fade-up text-sm font-light tracking-[0.2em]"
@@ -560,7 +543,7 @@ export default function App() {
               letterSpacing: "0.08em",
             }}
           >
-            {isEn ? "Oct 7 (Wed) – Oct 13 (Tue), 2026" : "2026. 10. 7(수) – 13(화)"}
+            {isEn ? "Oct 7 (Wed) – Oct 12 (Mon), 2026" : "2026. 10. 7(수) – 12(월)"}
           </p>
 
           <p
@@ -584,19 +567,19 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── Exhibition ──────────────────────────────────── */}
+      {/* ── Exhibition (담백한 소개글 + 전시 서문 버튼) ────── */}
       <section
         id="exhibition"
         ref={exhibitionRef as React.RefObject<HTMLDivElement>}
         className="reveal py-28 px-6"
         style={{ borderTop: "1px solid #e8e2da" }}
       >
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto text-center">
           <SectionHeading ko="전시소개" en="Exhibition" isEn={isEn} />
 
           {/* Poster placeholder */}
           <div
-            className="w-full mb-14 flex items-center justify-center text-sm"
+            className="w-full mb-12 flex items-center justify-center text-sm"
             style={{
               height: 420,
               background: "#ede8e0",
@@ -608,25 +591,93 @@ export default function App() {
             {isEn ? "POSTER IMAGE" : "포스터 이미지"}
           </div>
 
-          {isEn ? (
-            <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.9, color: "#3a3633" }}>
-              <p className="font-semibold text-lg mb-6">The Vessel of Space, True Abundance Blooms</p>
-              <p className="mb-5">Life is a constant cycle of breathing in and breathing out, of letting go and taking in. Just as we must exhale to inhale, and just as the tides ebb and flow, this rhythm of emptying and filling is fundamental to who we are. Yet, we easily lose this balance. Just like trying to inhale without exhaling leaves us gasping, modern life races toward constant accumulation, completely forgetting how to let go.</p>
-              <p className="mb-5">Why are we always trying to get more? Often, it's because we tie our self-worth to what we have—money, achievements, status, and validation. But no matter how great something is, if you pour it into a cup that's already full, it will only spill over or go stale. A mind crowded with attachments, greed, past regrets, and future worries has no room for genuine happiness or new possibilities. Constantly adding to our lives without clearing space first doesn't make us rich; it just leaves us overwhelmed, exhausted, and feeling empty.</p>
-              <p className="mb-5">So, what does it actually mean to empty ourselves? It doesn't mean giving up or throwing everything away. It's simply the wisdom of making room for something better. It's an active choice to take back control of our lives. Just as you need an empty mug for fresh tea, you need a clear mind to welcome true peace and insight. It's about getting back to basics: when we drop the unnecessary desires and stop caring about what others think, what we truly want becomes crystal clear. Making space starts a positive cycle. Once you sweep away old emotions and attachments, the new experiences, knowledge, and love you take in can actually help you grow.</p>
-              <p className="mb-5">In the end, a good life isn't about how much you've piled up. It's about how well you let go and how carefully you choose what to keep. Whenever you feel that overwhelming urge to just keep adding more, take a step back and look at what you're already carrying. Are you holding onto empty desires while ignoring what actually matters? Only by clearing space first can the things we gather become true abundance instead of greed, and bring us real growth instead of unhealthy attachment. Today, instead of reaching for just one more thing, why not practice the courage to let go of a few unnecessary thoughts? Only when the space is clean and open can our lives be filled with what truly shines.</p>
-            </div>
-          ) : (
-            <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.9, color: "#3a3633" }}>
-              <p className="font-semibold text-lg mb-6">비움이라는 그릇, 그 위에 피어나는 진정한 채움</p>
-              <p className="mb-5">인생은 끊임없이 비우고 채우는 숨 고르기의 연속입니다. 들숨이 있으면 날숨이 있고, 밀물이 밀려들면 썰물이 빠져나가듯 비움과 채움은 삶을 지탱하는 가장 근본적이고 상대적인 두 축입니다. 그러나 우리는 종종 이 자연스러운 흐름의 균형을 잃곤 합니다. 날숨 없이 들숨만 쉬려 하면 숨이 턱끝까지 차오르듯, 현대인의 삶은 '비움'에 대한 이해와 실천 없이 오직 '채움'만을 향해 질주하고 있습니다.</p>
-              <p className="mb-5">사람들은 왜 그토록 채우는 데 열망할까요? 그것은 채움이 주는 눈앞의 물질적 풍요, 스펙, 권력, 타인의 인정이 곧 자신의 가치를 증명한다고 믿기 때문입니다. 하지만 비워지지 않은 그릇에 아무리 좋은 것을 쏟아부은들 그 내용물은 결국 넘쳐흐르거나 안에서 썩어버리기 마련입니다. 이미 집착과 욕심, 지나간 후회와 미래에 대한 불안으로 가득 찬 마음에는 어떤 진정한 행복이나 새로운 가능성도 들어설 자리가 없습니다. 비움이라는 선행 조건이 생략된 채움은 풍요가 아니라 중첩된 과부하일 뿐이며, 우리를 더욱 조급하고 빈곤하게 만들 뿐입니다.</p>
-              <p className="mb-5">그렇다면 우리가 오해하고 있는 '비움'의 참된 의미는 무엇일까요? 비움은 결코 나약한 포기나 소유의 완전한 상실을 의미하지 않습니다. 비움은 새로운 가치를 맞이하기 위해 공간을 만드는 지혜이자, 내 삶의 주권을 다시 잡는 적극적인 선택입니다. 비움은 공간의 창출입니다. 잔이 비어 있어야 따뜻한 차를 담을 수 있듯, 마음과 삶의 여백을 만들어야 비로소 진정한 통찰과 평안이 찾아옵니다. 비움은 본질로의 회귀입니다. 불필요한 욕망과 타인의 시선이라는 군더더기를 덜어낼 때, 비로소 내가 진정으로 원하는 것이 무엇인지 삶의 본질이 선명하게 드러납니다. 비움은 선순환의 출발점입니다. 묵은 감정과 집착을 비워내는 실천력이 바탕이 될 때, 우리가 새로 채워 넣는 지식과 경험, 사랑은 비로소 건강한 영양이 되어 자신을 성장시킵니다.</p>
-              <p className="mb-5">결국 인생이라는 긴 여정에서 승자는 '얼마나 많이 채웠는가'가 아니라 '얼마나 잘 비우고 바르게 채웠는가'로 결정됩니다. 채우고자 하는 욕망이 요동칠 때일수록 우리는 한 걸음 물러서서 자신의 그릇을 들여다보아야 합니다. 지금 내 마음의 그릇은 무엇으로 차 있는지, 정작 담아야 할 소중한 가치들을 외면한 채 헛된 욕심으로 가득 채우려 하는 것은 아닌지 말입니다. 선명한 비움이 선행될 때, 비로소 채움은 욕심이 아닌 '풍요'가 되고 집착이 아닌 '성숙'이 됩니다. 오늘 하루, 무언가를 더 손에 쥐려 애쓰기보다 내 안의 불필요한 생각을 한숨 덜어내는 '비움의 용기'를 실천해 보는 것은 어떨까요. 잘 비워진 깨끗한 자리 위에서만 우리의 삶은 가장 빛나는 것들로 비로소 꽉 채워질 수 있습니다.</p>
-            </div>
-          )}
+          {/* 담백한 어조의 새로운 소개문 */}
+          <div 
+            className="max-w-2xl mx-auto mb-10 text-base md:text-lg" 
+            style={{ fontFamily: "var(--font-sans)", lineHeight: 1.85, color: "#3a3633" }}
+          >
+            {isEn ? (
+              <p>
+                Artist Shin Keum Sook presents around 30 oil paintings exploring the meaning of emptying and filling through the small beauties of daily life. Held at Gallery Lamer from October 7 to 12, this exhibition offers a meaningful time to reflect on the precious values of our everyday lives through her artwork.
+              </p>
+            ) : (
+              <p>
+                화가 신금숙이 일상의 작은 아름다움을 찾아 비움과 채움의 의미를 담은 30여 점의 작품을 소개합니다. 갤러리 라메르에서 10월 7일부터 12일까지 전개되는 이번 전시에서, 작가의 시선을 통해 일상의 소중한 의미를 되짚어보는 시간이 될 것입니다.
+              </p>
+            )}
+          </div>
+
+          {/* 전시 서문 버튼 (클릭 시 팝업 열림) */}
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-all hover:bg-[#1c1c1c] hover:text-[#faf8f4]"
+            style={{
+              borderColor: "#9b7b6b",
+              color: "#1c1c1c",
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.95rem",
+              letterSpacing: "0.08em",
+            }}
+          >
+            <span>{isEn ? "Read Exhibition Preface" : "전시 서문 보기"}</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
       </section>
+
+      {/* ── 전시 서문 팝업 (Modal) ────────────────────────── */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(28,26,24,0.65)", backdropFilter: "blur(6px)" }}
+        >
+          <div 
+            className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto p-8 md:p-12 rounded-lg shadow-2xl"
+            style={{ background: "#faf8f4", color: "#3a3633" }}
+          >
+            {/* 닫기 버튼 */}
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-[#ede8e0]"
+              aria-label="Close modal"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M4 4l10 10M14 4L4 14" stroke="#1c1c1c" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </button>
+
+            {/* 팝업 내부 내용 (기존 긴 서문) */}
+            <h3 
+              className="text-2xl font-normal mb-8 text-center"
+              style={{ fontFamily: "var(--font-display)", letterSpacing: "0.05em", color: "#1c1c1c" }}
+            >
+              {isEn ? "Exhibition Preface" : "전시 서문"}
+            </h3>
+
+            {isEn ? (
+              <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.9, fontSize: "0.95rem" }}>
+                <p className="font-semibold text-lg mb-6 text-center">The Vessel of Space, True Abundance Blooms</p>
+                <p className="mb-5">Life is a constant cycle of breathing in and breathing out, of letting go and taking in. Just as we must exhale to inhale, and just as the tides ebb and flow, this rhythm of emptying and filling is fundamental to who we are. Yet, we easily lose this balance. Just like trying to inhale without exhaling leaves us gasping, modern life races toward constant accumulation, completely forgetting how to let go.</p>
+                <p className="mb-5">Why are we always trying to get more? Often, it's because we tie our self-worth to what we have—money, achievements, status, and validation. But no matter how great something is, if you pour it into a cup that's already full, it will only spill over or go stale. A mind crowded with attachments, greed, past regrets, and future worries has no room for genuine happiness or new possibilities. Constantly adding to our lives without clearing space first doesn't make us rich; it just leaves us overwhelmed, exhausted, and feeling empty.</p>
+                <p className="mb-5">So, what does it actually mean to empty ourselves? It doesn't mean giving up or throwing everything away. It's simply the wisdom of making room for something better. It's an active choice to take back control of our lives. Just as you need an empty mug for fresh tea, you need a clear mind to welcome true peace and insight. It's about getting back to basics: when we drop the unnecessary desires and stop caring about what others think, what we truly want becomes crystal clear. Making space starts a positive cycle. Once you sweep away old emotions and attachments, the new experiences, knowledge, and love you take in can actually help you grow.</p>
+                <p className="mb-5">In the end, a good life isn't about how much you've piled up. It's about how well you let go and how carefully you choose what to keep. Whenever you feel that overwhelming urge to just keep adding more, take a step back and look at what you're already carrying. Are you holding onto empty desires while ignoring what actually matters?</p>
+                <p>Only by clearing space first can the things we gather become true abundance instead of greed, and bring us real growth instead of unhealthy attachment. Today, instead of reaching for just one more thing, why not practice the courage to let go of a few unnecessary thoughts? Only when the space is clean and open can our lives be filled with what truly shines.</p>
+              </div>
+            ) : (
+              <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.9, fontSize: "0.95rem" }}>
+                <p className="font-semibold text-lg mb-6 text-center">비움이라는 그릇, 그 위에 피어나는 진정한 채움</p>
+                <p className="mb-5">인생은 끊임없이 비우고 채우는 숨 고르기의 연속입니다. 들숨이 있으면 날숨이 있고, 밀물이 밀려들면 썰물이 빠져나가듯 비움과 채움은 삶을 지탱하는 가장 근본적이고 상대적인 두 축입니다. 그러나 우리는 종종 이 자연스러운 흐름의 균형을 잃곤 합니다. 날숨 없이 들숨만 쉬려 하면 숨이 턱끝까지 차오르듯, 현대인의 삶은 '비움'에 대한 이해와 실천 없이 오직 '채움'만을 향해 질주하고 있습니다.</p>
+                <p className="mb-5">사람들은 왜 그토록 채우는 데 열망할까요? 그것은 채움이 주는 눈앞의 물질적 풍요, 스펙, 권력, 타인의 인정이 곧 자신의 가치를 증명한다고 믿기 때문입니다. 하지만 비워지지 않은 그릇에 아무리 좋은 것을 쏟아부은들 그 내용물은 결국 넘쳐흐르거나 안에서 썩어버리기 마련입니다. 이미 집착과 욕심, 지나간 후회와 미래에 대한 불안으로 가득 찬 마음에는 어떤 진정한 행복이나 새로운 가능성도 들어설 자리가 없습니다. 비움이라는 선행 조건이 생략된 채움은 풍요가 아니라 중첩된 과부하일 뿐이며, 우리를 더욱 조급하고 빈곤하게 만들 뿐입니다.</p>
+                <p className="mb-5">그렇다면 우리가 오해하고 있는 '비움'의 참된 의미는 무엇일까요? 비움은 결코 나약한 포기나 소유의 완전한 상실을 의미하지 않습니다. 비움은 새로운 가치를 맞이하기 위해 공간을 만드는 지혜이자, 내 삶의 주권을 다시 잡는 적극적인 선택입니다. 비움은 공간의 창출입니다. 잔이 비어 있어야 따뜻한 차를 담을 수 있듯, 마음과 삶의 여백을 만들어야 비로소 진정한 통찰과 평안이 찾아옵니다. 비움은 본질로의 회귀입니다. 불필요한 욕망과 타인의 시선이라는 군더더기를 덜어낼 때, 비로소 내가 진정으로 원하는 것이 무엇인지 삶의 본질이 선명하게 드러납니다. 비움은 선순환의 출발점입니다. 묵은 감정과 집착을 비워내는 실천력이 바탕이 될 때, 우리가 새로 채워 넣는 지식과 경험, 사랑은 비로소 건강한 영양이 되어 자신을 성장시킵니다.</p>
+                <p className="mb-5">결국 인생이라는 긴 여정에서 승자는 '얼마나 많이 채웠는가'가 아니라 '얼마나 잘 비우고 바르게 채웠는가'로 결정됩니다. 채우고자 하는 욕망이 요동칠 때일수록 우리는 한 걸음 물러서서 자신의 그릇을 들여다보아야 합니다. 지금 내 마음의 그릇은 무엇으로 차 있는지, 정작 담아야 할 소중한 가치들을 외면한 채 헛된 욕심으로 가득 채우려 하는 것은 아닌지 말입니다.</p>
+                <p>선명한 비움이 선행될 때, 비로소 채움은 욕심이 아닌 '풍요'가 되고 집착이 아닌 '성숙'이 됩니다. 오늘 하루, 무언가를 더 손에 쥐려 애쓰기보다 내 안의 불필요한 생각을 한숨 덜어내는 '비움의 용기'를 실천해 보는 것은 어떨까요. 잘 비워진 깨끗한 자리 위에서만 우리의 삶은 가장 빛나는 것들로 비로소 꽉 채워질 수 있습니다.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── About ───────────────────────────────────────── */}
       <section
@@ -639,14 +690,13 @@ export default function App() {
           <SectionHeading ko="작가 소개" en="About Artist" isEn={isEn} />
 
           <div className="flex flex-col items-center gap-10 md:flex-row md:items-start md:gap-16">
-     {/* Profile circle */}
             <div className="shrink-0 flex flex-col items-center">
               <div
                 className="rounded-full overflow-hidden"
                 style={{
                   width: 180,
                   height: 180,
-                  background: "#d9d1c7", // 이미지가 로드되기 전이나 에러 시 보일 배경색
+                  background: "#d9d1c7",
                 }}
               >
                 <img 
@@ -668,7 +718,6 @@ export default function App() {
               </p>
             </div>
 
-            {/* Bio text */}
             {isEn ? (
               <div style={{ fontFamily: "var(--font-sans)", lineHeight: 1.85, color: "#3a3633" }}>
                 <p className="mb-4">As a child, artist Shin Keum Sook spent sleepless nights drawing paper dolls and fairy-tale princesses on blank white paper—warm, simple days that became the roots of her artistic inspiration. Unswayed by fleeting trends or flashy superficialities, she has spent her life quietly deepening her inner world to shape her own artistic identity. Her journey is a remarkable story of quiet dedication.</p>
@@ -728,7 +777,6 @@ export default function App() {
             className="grid gap-2 text-sm"
             style={{ fontFamily: "var(--font-sans)", color: "#3a3633", lineHeight: 1.8 }}
           >
-            {/* 정렬을 위해 전체 폭을 제한하는 컨테이너 추가 */}
             <div className="max-w-sm mx-auto w-full px-4">
               {[
                 { icon: "📞", label: "Phone", value: "010-4587-8428", href: "tel:010-4587-8428" },
@@ -738,7 +786,6 @@ export default function App() {
               ].map((c) => (
                 <div 
                   key={c.label} 
-                  // flex 대신 grid를 사용하여 열 너비를 고정 (아이콘 40px, 라벨 90px, 나머지 값)
                   className="grid grid-cols-[40px_90px_1fr] items-center py-3 text-left" 
                   style={{ borderBottom: "1px solid #ddd8d0" }}
                 >
