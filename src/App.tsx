@@ -567,7 +567,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── Exhibition ───────────────────────────────────── */}
+      {/* ── Exhibition (스크롤/호버 반응형 움직이는 포스터) ────── */}
       <section
         id="exhibition"
         ref={exhibitionRef as React.RefObject<HTMLDivElement>}
@@ -577,17 +577,46 @@ export default function App() {
         <div className="max-w-3xl mx-auto">
           <SectionHeading ko="전시소개" en="Exhibition" isEn={isEn} />
 
-        {/* Poster placeholder -> 이미지로 변경 */}
+          {/* 포스터 비디오 영역 (PC: 호버 시 재생 / 모바일: 스크롤 진입 시 재생) */}
           <div
-            className="w-full mb-12 flex items-center justify-center overflow-hidden"
+            className="w-full mb-12 flex items-center justify-center overflow-hidden rounded-lg shadow-md relative group"
             style={{
+              height: 420,
               background: "#ede8e0",
             }}
+            onMouseEnter={(e) => {
+              const video = e.currentTarget.querySelector("video");
+              if (video && window.innerWidth > 768) video.play();
+            }}
+            onMouseLeave={(e) => {
+              const video = e.currentTarget.querySelector("video");
+              if (video && window.innerWidth > 768) {
+                video.pause();
+                video.currentTime = 0;
+              }
+            }}
           >
-            <img
-              src="source/phoster.jpg"
-              alt={isEn ? "Exhibition Poster" : "전시 포스터"}
-              className="w-full h-full object-contain"
+            <video
+              ref={(node) => {
+                if (!node) return;
+                // 모바일 및 스크롤 감지를 위한 Observer 설정
+                const observer = new IntersectionObserver(
+                  ([entry]) => {
+                    if (entry.isIntersecting) {
+                      node.play().catch(() => {});
+                    } else {
+                      node.pause();
+                    }
+                  },
+                  { threshold: 0.4 } // 화면에 40% 이상 들어왔을 때 재생
+                );
+                observer.observe(node);
+              }}
+              src="source/phoster.mp4"
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
           </div>
 
@@ -723,8 +752,8 @@ export default function App() {
                 <p className="mb-4">Early in her artistic path, she focused on large-scale installations, striving for grand expressions. Over time, however, her perspective shifted toward smaller, delicate life forms. Finding quiet comfort in roadside wildflowers, she began capturing their fleeting beauty into lasting eternity.</p>
                 <p className="mb-6">By combining traditional silk painting with modern acrylic textures, Shin has established a distinct and original artistic world of her own.</p>
                 <ul className="text-sm space-y-2" style={{ color: "#6b6360", borderTop: "1px solid #d4ccc4", paddingTop: "1.2rem" }}>
-                  <li>· 1st–4th Solo Exhibitions (Ulsan Video Gallery, Seoul Arts Center)</li>
-                  <li>· Winner of Contemporary Art Competition Grand Prizes, Group & Invitational Exhibitions</li>
+                  <li>· 1st–4th Solo Exhibitions (Oct. 2009, Oct. 2014, May 2016, Oct. 2017; Ulsan Video Gallery, Seoul Arts Center)</li>
+                  <li>· Winner of the Grand Prize for Contemporary Art Competition 4 times (1986–88), Participated in 2 Contemporary Art Invitational Exhibitions (1988–89), 3 Gunja Exhibitions, 5 Teachers' Art Exhibitions, Omirang Reveals, Gazing and Thinking, Scent of Autumn, and over 40 other group exhibitions (1985–2014), 7 Invitational Exhibitions at Hanmaeum Hall Contemporary Art Center (1998–2014)</li>
                   <li>· Former President of the Ulsan Secondary Art Education Research Association</li>
                   <li>· Current Representative of Delpittore Art Studio, Member of the Professional Artists Association</li>
                 </ul>
@@ -736,8 +765,8 @@ export default function App() {
                 <p className="mb-4">예술의 길에 처음 들어섰을 때 그는 크고 웅장한 대형 오브제를 다루어야만 진정한 예술이라 여기며 치열한 고민을 겪기도 했다. 그러나 세월의 무게가 스며들면서 시선은 세상의 거대한 것에서 작고 여린 생명체들을 향해 따스하게 머물기 시작했다. 길 곁의 작은 들꽃 하나에도 깊은 애정을 담아 찰나의 아름다움을 영원으로 붙들어 매는 작업은 그렇게 시작되었다.</p>
                 <p className="mb-6">이 과정에서 신금숙 작가는 전통적인 실크 염색화의 깊이 있는 영역을 단단하게 개척해 냈고, 여기에 현대적인 아크릴 물감의 질감을 과감하게 접목함으로써 세상에 존재하지 않던 독창적인 예술 세계를 견고하게 구축해 가고 있다.</p>
                 <ul className="text-sm space-y-2" style={{ color: "#6b6360", borderTop: "1px solid #d4ccc4", paddingTop: "1.2rem" }}>
-                  <li>· 제1~4회 개인전 (울산 영상갤러리, 서울 예술의 전당)</li>
-                  <li>· 현대미술대상 공모전 입상 및 그룹·초대전 다수 출품</li>
+                  <li>· 제1~4회 개인전 (2009.10., 2014.10., 2016.5., 2017.10. 울산 영상갤러리, 서울 예술의 전당)</li>
+                  <li>· 현대미술대상 공모전 4회 입상(1986-88), 현대미술 초대전 2회(1988-89), 군자전 3회, 교원미전 5회, 오미랑 드러내다전, 바라보다 생각하다전, 가을향기전 외 그룹전 40여회 출품(1985-2014), 한마음회관 현대예술관 초대전 7회(1998-2014)</li>
                   <li>· 전) 울산중등미술교육연구회장</li>
                   <li>· 현) 델피토레그림방 대표, 전업미술가협회 회원</li>
                 </ul>
