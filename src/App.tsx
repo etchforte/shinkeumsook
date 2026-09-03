@@ -782,26 +782,19 @@ export default function App() {
                 {isEn ? "Share & Receive" : "공유하고 선물 받기"}
               </h3>
 
-              {/* 엽서 일러스트 힌트 — 선으로 그린 미니 카드 */}
+              {/* 엽서 이미지 */}
               <div className="mt-6 flex justify-center">
-                <svg width="88" height="60" viewBox="0 0 88 60" fill="none">
-                  <rect x="1" y="1" width="86" height="58" rx="4" stroke="rgba(250,248,244,0.12)" strokeWidth="1" />
-                  <rect x="6" y="6" width="76" height="48" rx="2" stroke="rgba(250,248,244,0.07)" strokeWidth="1" />
-                  {/* 우표 자리 */}
-                  <rect x="62" y="8" width="16" height="20" rx="1.5" stroke="rgba(155,123,107,0.5)" strokeWidth="0.8" />
-                  <rect x="65" y="11" width="10" height="14" rx="1" fill="rgba(155,123,107,0.12)" />
-                  {/* 주소 줄 */}
-                  <line x1="8" y1="36" x2="52" y2="36" stroke="rgba(250,248,244,0.15)" strokeWidth="0.8" />
-                  <line x1="8" y1="42" x2="44" y2="42" stroke="rgba(250,248,244,0.1)" strokeWidth="0.8" />
-                  <line x1="8" y1="48" x2="36" y2="48" stroke="rgba(250,248,244,0.07)" strokeWidth="0.8" />
-                  {/* 꽃 모티프 */}
-                  <circle cx="24" cy="20" r="6" stroke="rgba(250,248,244,0.18)" strokeWidth="0.8" />
-                  <circle cx="24" cy="20" r="2.5" fill="rgba(155,123,107,0.3)" />
-                  <line x1="24" y1="13" x2="24" y2="11" stroke="rgba(250,248,244,0.2)" strokeWidth="0.8" />
-                  <line x1="24" y1="27" x2="24" y2="29" stroke="rgba(250,248,244,0.2)" strokeWidth="0.8" />
-                  <line x1="17" y1="20" x2="15" y2="20" stroke="rgba(250,248,244,0.2)" strokeWidth="0.8" />
-                  <line x1="31" y1="20" x2="33" y2="20" stroke="rgba(250,248,244,0.2)" strokeWidth="0.8" />
-                </svg>
+                <img
+                  src="source/card.png"
+                  alt={isEn ? "Empty & Fill postcard set" : "비움과 채움 엽서 세트"}
+                  style={{
+                    width: 180,
+                    borderRadius: 6,
+                    boxShadow: "0 4px 24px rgba(0,0,0,0.35)",
+                    display: "block",
+                  }}
+                  draggable={false}
+                />
               </div>
             </div>
 
