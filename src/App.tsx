@@ -637,27 +637,28 @@ export default function App() {
           <SectionHeading ko="작가 소개" en="About Artist" isEn={isEn} />
 
           <div className="flex flex-col items-center gap-10 md:flex-row md:items-start md:gap-16">
-            {/* Profile circle */}
-            <div className="shrink-0">
+     {/* Profile circle */}
+            <div className="shrink-0 flex flex-col items-center">
               <div
-                className="rounded-full flex items-center justify-center text-sm"
+                className="rounded-full overflow-hidden"
                 style={{
                   width: 180,
                   height: 180,
-                  background: "#d9d1c7",
-                  color: "#9b9590",
-                  fontFamily: "var(--font-sans)",
-                  letterSpacing: "0.08em",
+                  background: "#d9d1c7", // 이미지가 로드되기 전이나 에러 시 보일 배경색
                 }}
               >
-                {isEn ? "PHOTO" : "사진"}
+                <img 
+                  src="source/profile.jpg" 
+                  alt={isEn ? "Artist Shin Keum Sook" : "신금숙 작가 프로필"} 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <p
                 className="mt-4 text-center"
                 style={{
-                  fontFamily: "'SungkokSerif', 'Noto Serif KR', serif",
-                  fontSize: "1.8rem",
-                  letterSpacing: "0.08em",
+                  fontFamily: "'SungkokSerif', serif",
+                  fontSize: "1.5rem",
+                  letterSpacing: "0.05em",
                   color: "#1c1c1c",
                 }}
               >
