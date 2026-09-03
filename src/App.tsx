@@ -581,7 +581,6 @@ export default function App() {
           <div
             className="w-full mb-12 flex items-center justify-center overflow-hidden"
             style={{
-              height: 420,
               background: "#ede8e0",
             }}
           >
