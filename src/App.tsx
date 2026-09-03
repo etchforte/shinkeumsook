@@ -723,6 +723,7 @@ export default function App() {
             )}
           </div>
         </div>
+      )}
       {/* ── SNS 공유 이벤트 팝업 (Modal) ────────────────────────── */}
       {isShareModalOpen && (
         <div
