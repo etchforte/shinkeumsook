@@ -84,7 +84,7 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
   const title = config.title ?? "신금숙 | Shin Keum Sook "
   const description = config.description ?? '화가 신금숙을 소개하는 웹페이지 입니다.'
   const favicon = config.icons?.icon ?? ''
-  const socialImage = config.openGraph?.image ?? ''
+  const socialImage = config.openGraph?.image ?? 'source/th.gif'
   const language = sanitizeHtmlValue(config.language) || 'en'
   const googleAnalyticsId = sanitizeHtmlValue(config.analytics?.googleAnalyticsId)
   const headStart = config.customScripts?.headStart ?? ''
