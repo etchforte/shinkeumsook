@@ -790,7 +790,6 @@ export default function App() {
                   style={{
                     width: 180,
                     borderRadius: 6,
-                    boxShadow: "0 4px 24px rgba(0,0,0,0.35)",
                     display: "block",
                   }}
                   draggable={false}
