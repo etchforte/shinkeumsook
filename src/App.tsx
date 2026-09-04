@@ -1166,8 +1166,7 @@ export default function App() {
                       className="text-left font-medium transition-opacity hover:opacity-70 underline underline-offset-4 decoration-1 flex items-center gap-1"
                       style={{ color: "#8c6b5d" }}
                     >
-                      <span>[한국교육신문] 교직 33년, 그림방에서 제2인생 펼치는 신금숙 前 교장</span>
-                      <span className="text-xs">📰</span>
+                      <span>[한국교육신문] 교직 33년, 그림방에서 제2인생 펼치는 신금숙 前 교장 📰</span>
                     </button>
                   </li>
                 </ul>
