@@ -222,18 +222,21 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
         {artworks.map((aw, idx) => (
           <div
             key={aw.id}
-            className="absolute coverflow-item"
+            className="absolute coverflow-item flex flex-col items-center justify-center"
             style={{ ...getStyle(idx), height: 340 }}
             onClick={() => setActive(idx)}
             role="button"
             aria-label={isEn ? aw.titleEn : aw.titleKo}
           >
+            {/* 메인 작품 이미지: object-contain으로 변경하여 원본 비율 유지 */}
             <img
               src={aw.url}
               alt={aw.alt}
-              className="h-full w-auto block object-cover"
+              className="h-full w-auto block object-contain drop-shadow-md"
               draggable={false}
             />
+
+            {/* 하단 바닥 반사 이미지 */}
             <div
               style={{
                 position: "absolute",
@@ -250,7 +253,7 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
                 alt=""
                 aria-hidden
                 className="w-full block"
-                style={{ height: 340, transform: "scaleY(-1)", objectPosition: "bottom", objectFit: "fill" }}
+                style={{ height: 340, transform: "scaleY(-1)", objectPosition: "bottom", objectFit: "contain" }}
                 draggable={false}
               />
               <div
