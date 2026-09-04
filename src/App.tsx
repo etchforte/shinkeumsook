@@ -493,6 +493,7 @@ export default function App() {
   const [isEn, setIsEn] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const [isNewsModalOpen, setIsNewsModalOpen] = useState(false)
   
   const exhibitionRef = useReveal() as React.RefObject<HTMLElement>
   const aboutRef = useReveal() as React.RefObject<HTMLElement>
@@ -913,7 +914,112 @@ export default function App() {
           </div>
         </div>
       )}
+{/* ── 한국교육신문 기사 팝업 (Newspaper Style Modal) ────────────────────────── */}
+      {isNewsModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(28,26,24,0.75)", backdropFilter: "blur(6px)" }}
+        >
+          <div
+            className="relative w-full max-w-2xl max-h-[88vh] overflow-y-auto p-6 md:p-10 rounded-sm shadow-2xl"
+            style={{
+              background: "#f4f1ea", // 빈티지 신문 종이 질감 색상
+              color: "#222120",
+              border: "1px solid #c8c2b7",
+              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4)"
+            }}
+          >
+            {/* 닫기 버튼 */}
+            <button
+              onClick={() => setIsNewsModalOpen(false)}
+              className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:bg-[#e4dfd3]"
+              aria-label="Close modal"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M4 4l10 10M14 4L4 14" stroke="#222120" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </button>
 
+            {/* 신문 헤더 */}
+            <div className="border-b-2 border-double border-[#3a3835] pb-3 mb-6 text-center">
+              <div className="flex justify-between items-center text-xs tracking-widest text-[#666057] mb-1 font-serif px-1">
+                <span>기획 · 인물</span>
+                <span className="font-bold text-[#1a1918] tracking-widest text-sm">韓國敎育新聞</span>
+                <span>한국교육신문</span>
+              </div>
+              <div className="h-[1px] bg-[#3a3835] my-1" />
+            </div>
+
+            {/* 기사 타이틀 */}
+            <h3
+              className="text-2xl md:text-3xl font-bold mb-3 leading-snug"
+              style={{ fontFamily: "'SungkokSerif', 'Noto Serif KR', serif", color: "#1a1918" }}
+            >
+              교직 33년, 그림방에서 제2인생 펼치는 신금숙 前 교장
+            </h3>
+
+            {/* 부제 */}
+            <p className="text-sm md:text-base font-medium mb-4 text-[#524d45] border-l-2 border-[#8c6b5d] pl-3 py-0.5">
+              울산 상안중 교장 은퇴 후 미사지구에 '델피토레그림방' 개관... 실크 염색화와 아크릴의 조화로 새로운 예술 지평 열어
+            </p>
+
+            <div className="text-xs text-[#736c62] mb-6 pb-2 border-b border-[#d8d2c5]">
+              <span>기사 출처 : 한국교육신문 (hangyo.com)</span>
+            </div>
+
+            {/* 기사 직접 링크 이미지 영역 */}
+            <div className="mb-6">
+              <div className="bg-[#e8e3d8] p-2 border border-[#d2cbbe] rounded-sm">
+                <img
+                  src="https://www.hangyo.com/data/photos/20250209/art_17403970368678_e8604c.jpg"
+                  alt="신금숙 작가 한국교육신문 기사 사진"
+                  className="w-full h-auto object-cover max-h-[380px]"
+                />
+                <p className="text-xs text-[#666057] mt-2 font-serif text-center">
+                  ▲ 하남 미사지구 '델피토레그림방'에서 작품 활동에 매진하고 있는 신금숙 작가(前 상안중 교장).
+                </p>
+              </div>
+            </div>
+
+            {/* 기사 본문 */}
+            <div
+              className="space-y-4 text-base leading-relaxed text-[#2b2825]"
+              style={{ fontFamily: "'Noto Serif KR', serif", textAlign: "justify", wordBreak: "keep-all" }}
+            >
+              <p>
+                33년간 스승의 길을 걸으며 제자들에게 예술의 씨앗을 심어온 신금숙 前 울산 상안중학교 교장이 교직 은퇴 후 화가로서 제2의 인생을 활발히 이어가고 있다.
+              </p>
+              <p>
+                수도여자사범대학교에서 미술교육을 전공하고 천호중학교에서 교직에 첫발을 내디딘 신 작가는 평생을 교육 현장에서 헌신해 왔다. 은퇴 후에는 오랜 숙원이었던 한옥 갤러리 '비단애'를 서울 성북동에 열어 예술가들과의 소통의 장을 마련한 데 이어, 최근 경기도 하남시 미사지구에 '델피토레그림방'을 새로 구축하여 본격적인 작품 창작 활동에 몰두하고 있다.
+              </p>
+              <p>
+                신 작가는 전통 실크 염색화 기법에 현대적인 아크릴 물감의 질감을 과감하게 접목한 독창적인 조형 세계를 구축해 주목받고 있다. 젊은 날의 거대한 대형 오브제 작업에서 벗어나, 세월의 깊이와 함께 길가의 작고 여린 들꽃과 자연의 생명력에 시선을 두며 '비움과 채움'의 조화로운 미학을 화폭에 담아내고 있다.
+              </p>
+              <p>
+                오랜 교직 경험을 바탕으로 지역 사회 문화 예술 발전과 후학 양성에도 힘쓰고 있는 신금숙 작가는 오는 10월 서울 인사동 갤러리 라메르에서 개인전 '비움과 채움'을 통해 관객들에게 따뜻한 위안과 예술적 감동을 선사할 예정이다.
+              </p>
+            </div>
+
+            {/* 기사 하단 바 */}
+            <div className="mt-8 pt-4 border-t border-[#d8d2c5] flex justify-between items-center text-xs text-[#736c62]">
+              <a
+                href="https://www.hangyo.com/news/article.html?no=103792"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-[#1a1918]"
+              >
+                한국교육신문 원문 기사 바로가기 ↗
+              </a>
+              <button
+                onClick={() => setIsNewsModalOpen(false)}
+                className="px-4 py-1.5 bg-[#3a3835] text-[#f4f1ea] rounded-sm hover:bg-[#1a1918] transition-colors"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── About (담백한 어조로 수정된 작가 소개) ──────── */}
       <section
@@ -977,6 +1083,18 @@ export default function App() {
                   <li>· 현대미술대상 공모전 4회 입상(1986-88), 현대미술 초대전 2회(1988-89), 군자전 3회, 교원미전 5회, 오미랑 드러내다전, 바라보다 생각하다전, 가을향기전 외 그룹전 40여회 출품(1985-2014), 한마음회관 현대예술관 초대전 7회(1998-2014)</li>
                   <li>· 전) 울산중등미술교육연구회장</li>
                   <li>· 현) 델피토레그림방 대표, 전업미술가협회 회원</li>
+
+                  <li className="pt-2">
+                    <button
+                      onClick={() => setIsNewsModalOpen(true)}
+                      className="text-left font-medium transition-opacity hover:opacity-70 underline underline-offset-4 decoration-1 flex items-center gap-1"
+                      style={{ color: "#8c6b5d" }}
+                    >
+                      <span>[한국교육신문] 교직 33년, 그림방에서 제2인생 펼치는 신금숙 前 교장</span>
+                      <span className="text-xs">📰</span>
+                    </button>
+                  </li>
+                
                 </ul>
               </div>
             )}
