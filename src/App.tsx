@@ -222,21 +222,18 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
         {artworks.map((aw, idx) => (
           <div
             key={aw.id}
-            className="absolute coverflow-item flex flex-col items-center justify-center"
+            className="absolute coverflow-item"
             style={{ ...getStyle(idx), height: 340 }}
             onClick={() => setActive(idx)}
             role="button"
             aria-label={isEn ? aw.titleEn : aw.titleKo}
           >
-            {/* 메인 작품 이미지: object-contain으로 변경하여 원본 비율 유지 */}
             <img
               src={aw.url}
               alt={aw.alt}
-              className="h-full w-auto block object-contain drop-shadow-md"
+              className="h-full w-auto block object-cover"
               draggable={false}
             />
-
-            {/* 하단 바닥 반사 이미지 */}
             <div
               style={{
                 position: "absolute",
@@ -253,7 +250,7 @@ function CoverFlow({ isEn }: { isEn: boolean }) {
                 alt=""
                 aria-hidden
                 className="w-full block"
-                style={{ height: 340, transform: "scaleY(-1)", objectPosition: "bottom", objectFit: "contain" }}
+                style={{ height: 340, transform: "scaleY(-1)", objectPosition: "bottom", objectFit: "fill" }}
                 draggable={false}
               />
               <div
@@ -794,6 +791,7 @@ export default function App() {
                   style={{
                     width: 180,
                     borderRadius: 6,
+                    boxShadow: "0 4px 24px rgba(0,0,0,0.35)",
                     display: "block",
                   }}
                   draggable={false}
@@ -914,132 +912,185 @@ export default function App() {
           </div>
         </div>
       )}
-{/* ── 한국교육신문 기사 팝업 (Newspaper Style Modal) ────────────────────────── */}
+
+
+      {/* ── 한국교육신문 기사 팝업 ──────────────────────────────── */}
       {isNewsModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: "rgba(28,26,24,0.75)", backdropFilter: "blur(6px)" }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6"
+          style={{ background: "rgba(14,12,10,0.82)", backdropFilter: "blur(8px)" }}
+          onClick={(e) => { if (e.target === e.currentTarget) setIsNewsModalOpen(false) }}
         >
           <div
-            className="relative w-full max-w-2xl max-h-[88vh] overflow-y-auto p-6 md:p-10 rounded-sm shadow-2xl"
+            className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto"
             style={{
-              background: "#f4f1ea", // 빈티지 신문 종이 질감 색상
-              color: "#222120",
-              border: "1px solid #c8c2b7",
-              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4)"
+              background: "#f0ebe0",
+              color: "#1e1c19",
+              boxShadow: "0 32px 80px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(160,150,130,0.4)",
+              backgroundImage:
+                "repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(140,120,90,0.03) 28px, rgba(140,120,90,0.03) 29px)",
             }}
           >
-            {/* 닫기 버튼 */}
-            <button
-              onClick={() => setIsNewsModalOpen(false)}
-              className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:bg-[#e4dfd3]"
-              aria-label="Close modal"
-            >
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M4 4l10 10M14 4L4 14" stroke="#222120" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
-
-            {/* 신문 헤더 */}
-            <div className="border-b-2 border-double border-[#3a3835] pb-3 mb-6 text-center">
-              <div className="flex justify-between items-center text-xs tracking-widest text-[#666057] mb-1 font-serif px-1">
-                <span>기획 · 인물</span>
-                <span className="font-bold text-[#1a1918] tracking-widest text-sm">韓國敎育新聞</span>
-                <span>한국교육신문</span>
-              </div>
-              <div className="h-[1px] bg-[#3a3835] my-1" />
-            </div>
-
-            {/* 기사 타이틀 및 정보 */}
-            <h3
-              className="text-2xl md:text-3xl font-bold mb-4 leading-snug"
-              style={{ fontFamily: "'SungkokSerif', 'Noto Serif KR', serif", color: "#1a1918", wordKeep: "keep-all" }}
-            >
-              교직 33년, 그림방에서 제2인생 펼치는 신금숙 前 교장
-            </h3>
-
-            <div className="text-sm md:text-base font-medium mb-4 text-[#524d45] border-l-2 border-[#8c6b5d] pl-3 py-0.5 space-y-1">
-              <p>명퇴 후 갤러리 8년 운영</p>
-              <p>『델피토레그림방』 대표로 활동</p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-xs text-[#736c62] mb-6 pb-2 border-b border-[#d8d2c5]">
-              <span>이영관 교육칼럼니스트 yyg99@hanmail.net</span>
-              <span>등록 2025.02.26 15:13:32</span>
-            </div>
-
-            {/* 기사 직접 링크 이미지 영역 */}
-            <div className="mb-8">
-              <div className="bg-[#e8e3d8] p-2 border border-[#d2cbbe] rounded-sm">
-                <img
-                  src="https://www.hangyo.com/data/photos/20250209/art_17403970368678_e8604c.jpg"
-                  alt="신금숙 작가 한국교육신문 기사 사진"
-                  className="w-full h-auto object-cover max-h-[450px]"
-                />
-                <p className="text-xs text-[#666057] mt-2 font-serif text-center">
-                  ▲ 『델피토레그림방』을 운영하는 신금숙 화가
-                </p>
-              </div>
-            </div>
-
-            {/* 기사 본문 (원문 그대로) */}
+            {/* ── 마스트헤드 ─────────────────────────── */}
             <div
-              className="space-y-5 text-base leading-relaxed text-[#2b2825]"
-              style={{ fontFamily: "'Noto Serif KR', serif", textAlign: "justify", wordBreak: "keep-all" }}
+              className="px-6 md:px-10 pt-7 pb-4 text-center"
+              style={{ borderBottom: "3px double #2a2520" }}
             >
-              <p>
-                서울과 울산지역 미술교사 출신인 신금숙(67) 前 교장. 미술교사의 교직 추억엔 무엇이 남아 있을까? 30대 초반 덕수상고 미술반 제자들과 함께 저녁 늦게까지 작품 제작을 하고 아이들의 허기진 배를 떡볶이와 순대로 채워주던 일. 창덕여고 때 수업시간 제작한 학생작품 200여 점을 매년 축제 때마다 기성작가 전시회 수준으로 준비해 갈채를 받았던 일. 울산 중앙고에선 미술수업에 인성교육과 진로적성프로그램 접목해 학생들의 흥미를 유도하고 그 결과를 현장논문으로 남겼던 일이 주마등처럼 스쳐 지나간다.
-              </p>
-              <p>
-                그는 2012년 울산 상안중 교장 발령 2년만에 과감히 명예퇴직을 하게 된다. 정년 5년 반을 남긴 때다. 교직 33년 동안 교직을 너무나 사랑했고, 교육에 대한 열정도 있고, 교장으로서 성과도 있었으나 세월호 사건을 겪으면서 자신의 교직생활을 돌아보게 되었고 '박수칠 때 떠나라'는 말의 의미를 되새기면서 지금이 그때라고 생각했다고 한다.
-              </p>
-              <p>
-                2014년 4월 어느 날, 70세까지 12년밖에 안 남았다는 사실을 깨닫고 그 나이가 되면 '어떤 새로운 일에 도전할 수가 있을까?'하는 생각이 스치자 머리를 한 대 얻어맞은 것 같았다. 이대로 평생 직장만 다니다가 인생을 마치게 될 것 같아 조급해졌다. 나머지 삶은 마음 편히 그림을 그리며 화가로서 살고 싶었다. 깊은 고민 끝에 '학교교육, 내가 아니면 안 된다는 생각은 오만'이라는 결론을 내린 것이다.
-              </p>
-              <p>
-                퇴직 후, 서울 성북동에 작은 한옥을 구입해 리모델링하여 평생 숙원이었던 『비단애갤러리』를 오픈, 8년간 즐겁게 생활했다. 우연한 기회에 경기도 하남시 현재의 상가를 매입, 갤러리를 옮겨 2023년 9월 『델피토레그림방』을 재오픈했는데, 성공적으로 자리를 잡아가고 있는 중이다.
-              </p>
-              <p>
-                델피토레(DEL PITTORE)는 이탈리아어로 '화가의'란 뜻이며, 따라서 『델피토레그림방』은 '화가의 그림방'이란 의미다. 이 그림방에는 다양한 미술도구가 준비되어 있어, 그림 그리기를 좋아하는 사람이면 누구나 아무런 준비 없이 가벼운 마음으로 내방하여 그림도 그리고, 차도 마시며 음악도 즐길 수 있는 신개념의 힐링공간이다.
-              </p>
-              <p>
-                그림을 그리고 싶은데 자신이 없어서 주저하는 분들이 쉽게 도전할 수 있도록 하였다. 먼저 그림방 작품 소품을 도안화한 밑그림을 제공하고, 게시된 그 밑그림의 예시 작품을 직접 보면 그릴 수 있는 자신감이 생긴다. 이곳엔 어린이부터 성인까지 그리고 수준별, 장르별로 체험할 수 있는 밑그림이 준비되었다. 홍보에 적극 나서지 않았음에도 입소문으로 찾아오는 고객이 점점 늘어나는 추세라고 한다.
-              </p>
-              <p>
-                신금숙 화가로서의 약력과 화풍 변화과정이 궁금했다. 그는 평생 교육자로서 바쁜 일상 속에서도 꾸준히 붓을 잡았다. 젊었을 때에는 10회의 공모전 출품과 입상, 그리고 초대작가로 활동했다. 거의 매년 그룹전에 참가했으나 개인전은 총 4회를 열었고 지금 다섯 번째 개인전을 준비 중이다. 초기에는 유화, 아크릴화와 염색화를 주로 그렸으나 가장 익숙한 재료인 실크를 회화에 접목한 작업을 해 왔다. 최근에는 다양한 방법으로 실크를 염색하고 이를 부분적으로 콜라주하는 기법으로 그 완성도를 더해 가고 있다.
-              </p>
-              <p>
-                일반인이 그림을 그리면 어떤 점이 좋은가? 고객 지도를 통한 성공 지도사례를 물었다. 그는 "꾸준한 미술활동은 자신도 인지하지 못한 내면의 갈등이나 억압된 욕구를 표출함으로서 정서적 안정을 가져오게 하고 기능을 습득해가면서 성취감, 자기 효능감까지도 느낄 수 있다. 특히 현대인의 고독감과 고립감도 그림을 그리면서 치유되기도 한다"며 "급격한 환경 변화로 약간의 틱 증상을 갖고 있던 초등학교 학생이 함께 그림을 그리면서 눈에 띄게 호전되는 모습을 보았고, 평소 우울감을 많이 느끼던 50대 주부가 그림을 그리면서 너무나 활달해지는 모습도 보았다"고 사례를 소개한다.
-              </p>
-              <p>
-                그는 그림 초보자들에게 도전정신을 강조한다. 그림은 문자가 만들어지기 오래전부터 인간이 사용한 소통의 도구다. 대부분 사람들이 미술을 처음 접할 때 테크닉만을 신경 쓰다보니 도전하기 쉽지 않은데, 간혹 어린아이나 초보자의 때묻지 않은 그림이 훨씬 더 매력적일 수 있다고 한다. 누구라도 쉽게 도전할 수 있는, 수준에 맞는 다양한 도구와 기법이 많이 있으니 어렵게 생각하지 말고 시작할 것을 권유한다.
-              </p>
-              <p>
-                그가 교직 후배들에게 하고 싶은 말은 "한때 교직에 몸담았던 분들이나 아직 교단을 지키고 계신 분들은 누가 뭐라 해도 교육자로서의 사명감을 갖고 있다"며 "교육자의 사명은 우리가 어디에서 어느 위치에 있던지 모든 사람이 행복해질 수 있는 길로 안내하고 이끌어가는 것이 아니겠냐?"고 되묻는다.
-              </p>
-              <p>
-                교육 리포터의 『델피토레그림방』 방문, 신금숙 화가와 나눈 그림 대화 시간이 신선하고 즐거웠다. 자신이 좋아하고 하고 싶은 일을 하는 사람에게서 느껴지는 밝은 행복 에너지를 받았다.
-              </p>
+              <button
+                onClick={() => setIsNewsModalOpen(false)}
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center transition-opacity hover:opacity-40"
+                aria-label="닫기"
+                style={{ color: "#2a2520" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                </svg>
+              </button>
+
+              <div
+                className="flex justify-between items-center text-xs mb-3 px-1"
+                style={{ fontFamily: "var(--font-sans)", color: "#7a7060", letterSpacing: "0.06em" }}
+              >
+                <span>기획 · 인물</span>
+                <span>등록 2025. 02. 26</span>
+              </div>
+
+              <div
+                className="text-3xl md:text-4xl font-bold tracking-tight leading-none mb-1"
+                style={{ fontFamily: "'Noto Serif KR', serif", color: "#1a1714", letterSpacing: "0.04em" }}
+              >
+                韓國敎育新聞
+              </div>
+              <div
+                className="text-xs tracking-[0.28em] mb-3"
+                style={{ fontFamily: "var(--font-sans)", color: "#8a7f70" }}
+              >
+                HANGYO SINMUN
+              </div>
+              <div style={{ height: 1, background: "#2a2520", marginBottom: 2 }} />
+              <div style={{ height: 3, background: "#2a2520" }} />
             </div>
 
-            {/* 기사 하단 바 */}
-            <div className="mt-10 pt-4 border-t border-[#d8d2c5] flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-[#736c62]">
-              <span>ⓒ 한국교육신문 www.hangyo.com 무단전재 및 재배포 금지</span>
-              <div className="flex gap-4">
-                <a
-                  href="https://www.hangyo.com/news/article.html?no=103792"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:text-[#1a1918] py-1.5"
+            {/* ── 기사 헤더 ──────────────────────────── */}
+            <div className="px-6 md:px-10 pt-6 pb-4" style={{ borderBottom: "1px solid #c8bfad" }}>
+              <div
+                className="inline-block text-xs tracking-widest px-2 py-0.5 mb-4"
+                style={{ background: "#2a2520", color: "#f0ebe0", fontFamily: "var(--font-sans)", letterSpacing: "0.15em" }}
+              >
+                인물
+              </div>
+              <h3
+                className="text-2xl md:text-[1.75rem] font-bold leading-tight mb-3"
+                style={{ fontFamily: "'Noto Serif KR', serif", color: "#1a1714", wordBreak: "keep-all", letterSpacing: "-0.01em" }}
+              >
+                교직 33년, 그림방에서 제2인생 펼치는<br />신금숙 前 교장
+              </h3>
+              <div
+                className="text-sm font-medium space-y-0.5 mb-4 pl-3"
+                style={{ fontFamily: "var(--font-sans)", color: "#4a4438", borderLeft: "2px solid #9b7b6b", lineHeight: 1.7 }}
+              >
+                <p>명퇴 후 갤러리 8년 운영</p>
+                <p>『델피토레그림방』 대표로 활동</p>
+              </div>
+              <div
+                className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs pt-2"
+                style={{ fontFamily: "var(--font-sans)", color: "#8a7f70", borderTop: "1px solid #d8d0c0" }}
+              >
+                <span>이영관 교육칼럼니스트</span>
+                <span style={{ color: "#bbb0a0" }}>|</span>
+                <span>yyg99@hanmail.net</span>
+              </div>
+            </div>
+
+            {/* ── 기사 본문 ──────────────────────────── */}
+            <div className="px-6 md:px-10 py-6">
+              {/* 사진 */}
+              <figure className="mb-5 md:float-right md:ml-6 md:mb-3 md:w-[44%]">
+                <div style={{ border: "1px solid #c8bfad", padding: 4, background: "#e8e0d0" }}>
+                  <img
+                    src="https://www.hangyo.com/data/photos/20250209/art_17403970368678_e8604c.jpg"
+                    alt="신금숙 작가 한국교육신문 기사 사진"
+                    className="w-full h-auto block"
+                    style={{ maxHeight: 300, objectFit: "cover" }}
+                  />
+                </div>
+                <figcaption
+                  className="text-xs mt-1.5 text-center"
+                  style={{ fontFamily: "var(--font-sans)", color: "#7a7060" }}
                 >
-                  원문 기사 바로가기 ↗
-                </a>
-                <button
-                  onClick={() => setIsNewsModalOpen(false)}
-                  className="px-4 py-1.5 bg-[#3a3835] text-[#f4f1ea] rounded-sm hover:bg-[#1a1918] transition-colors"
+                  ▲ 『델피토레그림방』을 운영하는 신금숙 화가
+                </figcaption>
+              </figure>
+
+              <div
+                style={{
+                  fontFamily: "'Noto Serif KR', serif",
+                  fontSize: "0.88rem",
+                  lineHeight: 2,
+                  color: "#2b2620",
+                  textAlign: "justify",
+                  wordBreak: "keep-all",
+                }}
+              >
+                {/* 드롭캡 */}
+                <p className="mb-4">
+                  <span style={{ float: "left", fontSize: "3.2rem", lineHeight: 0.82, fontWeight: 700, marginRight: "0.1em", marginTop: "0.06em", color: "#1a1714" }}>
+                    서
+                  </span>
+                  울과 울산지역 미술교사 출신인 신금숙(67) 前 교장. 미술교사의 교직 추억엔 무엇이 남아 있을까? 30대 초반 덕수상고 미술반 제자들과 함께 저녁 늦게까지 작품 제작을 하고 아이들의 허기진 배를 떡볶이와 순대로 채워주던 일. 창덕여고 때 수업시간 제작한 학생작품 200여 점을 매년 축제 때마다 기성작가 전시회 수준으로 준비해 갈채를 받았던 일. 울산 중앙고에선 미술수업에 인성교육과 진로적성프로그램 접목해 학생들의 흥미를 유도하고 그 결과를 현장논문으로 남겼던 일이 주마등처럼 스쳐 지나간다.
+                </p>
+                <p className="mb-4">그는 2012년 울산 상안중 교장 발령 2년만에 과감히 명예퇴직을 하게 된다. 정년 5년 반을 남긴 때다. 교직 33년 동안 교직을 너무나 사랑했고, 교육에 대한 열정도 있고, 교장으로서 성과도 있었으나 세월호 사건을 겪으면서 자신의 교직생활을 돌아보게 되었고 '박수칠 때 떠나라'는 말의 의미를 되새기면서 지금이 그때라고 생각했다고 한다.</p>
+                <p className="mb-4">2014년 4월 어느 날, 70세까지 12년밖에 안 남았다는 사실을 깨닫고 그 나이가 되면 '어떤 새로운 일에 도전할 수가 있을까?'하는 생각이 스치자 머리를 한 대 얻어맞은 것 같았다. 이대로 평생 직장만 다니다가 인생을 마치게 될 것 같아 조급해졌다. 나머지 삶은 마음 편히 그림을 그리며 화가로서 살고 싶었다. 깊은 고민 끝에 '학교교육, 내가 아니면 안 된다는 생각은 오만'이라는 결론을 내린 것이다.</p>
+
+                {/* 풀 인용구 */}
+                <blockquote
+                  className="my-5 py-4 px-5 text-center"
+                  style={{
+                    borderTop: "2px solid #2a2520",
+                    borderBottom: "2px solid #2a2520",
+                    fontFamily: "'Noto Serif KR', serif",
+                    fontSize: "0.95rem",
+                    lineHeight: 1.8,
+                    color: "#2a2520",
+                  }}
                 >
-                  닫기
-                </button>
+                  "나머지 삶은 마음 편히 그림을 그리며<br />화가로서 살고 싶었다."
+                </blockquote>
+
+                <p className="mb-4">퇴직 후, 서울 성북동에 작은 한옥을 구입해 리모델링하여 평생 숙원이었던 『비단애갤러리』를 오픈, 8년간 즐겁게 생활했다. 우연한 기회에 경기도 하남시 현재의 상가를 매입, 갤러리를 옮겨 2023년 9월 『델피토레그림방』을 재오픈했는데, 성공적으로 자리를 잡아가고 있는 중이다.</p>
+                <p className="mb-4">델피토레(DEL PITTORE)는 이탈리아어로 '화가의'란 뜻이며, 따라서 『델피토레그림방』은 '화가의 그림방'이란 의미다. 이 그림방에는 다양한 미술도구가 준비되어 있어, 그림 그리기를 좋아하는 사람이면 누구나 아무런 준비 없이 가벼운 마음으로 내방하여 그림도 그리고, 차도 마시며 음악도 즐길 수 있는 신개념의 힐링공간이다.</p>
+                <p className="mb-4">그림을 그리고 싶은데 자신이 없어서 주저하는 분들이 쉽게 도전할 수 있도록 하였다. 먼저 그림방 작품 소품을 도안화한 밑그림을 제공하고, 게시된 그 밑그림의 예시 작품을 직접 보면 그릴 수 있는 자신감이 생긴다. 이곳엔 어린이부터 성인까지 그리고 수준별, 장르별로 체험할 수 있는 밑그림이 준비되었다. 홍보에 적극 나서지 않았음에도 입소문으로 찾아오는 고객이 점점 늘어나는 추세라고 한다.</p>
+                <p className="mb-4">신금숙 화가로서의 약력과 화풍 변화과정이 궁금했다. 그는 평생 교육자로서 바쁜 일상 속에서도 꾸준히 붓을 잡았다. 젊었을 때에는 10회의 공모전 출품과 입상, 그리고 초대작가로 활동했다. 거의 매년 그룹전에 참가했으나 개인전은 총 4회를 열었고 지금 다섯 번째 개인전을 준비 중이다. 초기에는 유화, 아크릴화와 염색화를 주로 그렸으나 가장 익숙한 재료인 실크를 회화에 접목한 작업을 해 왔다. 최근에는 다양한 방법으로 실크를 염색하고 이를 부분적으로 콜라주하는 기법으로 그 완성도를 더해 가고 있다.</p>
+                <p className="mb-4">일반인이 그림을 그리면 어떤 점이 좋은가? 고객 지도를 통한 성공 지도사례를 물었다. 그는 "꾸준한 미술활동은 자신도 인지하지 못한 내면의 갈등이나 억압된 욕구를 표출함으로서 정서적 안정을 가져오게 하고 기능을 습득해가면서 성취감, 자기 효능감까지도 느낄 수 있다. 특히 현대인의 고독감과 고립감도 그림을 그리면서 치유되기도 한다"며 "급격한 환경 변화로 약간의 틱 증상을 갖고 있던 초등학교 학생이 함께 그림을 그리면서 눈에 띄게 호전되는 모습을 보았고, 평소 우울감을 많이 느끼던 50대 주부가 그림을 그리면서 너무나 활달해지는 모습도 보았다"고 사례를 소개한다.</p>
+                <p className="mb-4">그는 그림 초보자들에게 도전정신을 강조한다. 그림은 문자가 만들어지기 오래전부터 인간이 사용한 소통의 도구다. 대부분 사람들이 미술을 처음 접할 때 테크닉만을 신경 쓰다보니 도전하기 쉽지 않은데, 간혹 어린아이나 초보자의 때묻지 않은 그림이 훨씬 더 매력적일 수 있다고 한다. 누구라도 쉽게 도전할 수 있는, 수준에 맞는 다양한 도구와 기법이 많이 있으니 어렵게 생각하지 말고 시작할 것을 권유한다.</p>
+                <p className="mb-4">그가 교직 후배들에게 하고 싶은 말은 "한때 교직에 몸담았던 분들이나 아직 교단을 지키고 계신 분들은 누가 뭐라 해도 교육자로서의 사명감을 갖고 있다"며 "교육자의 사명은 우리가 어디에서 어느 위치에 있던지 모든 사람이 행복해질 수 있는 길로 안내하고 이끌어가는 것이 아니겠냐?"고 되묻는다.</p>
+                <p>교육 리포터의 『델피토레그림방』 방문, 신금숙 화가와 나눈 그림 대화 시간이 신선하고 즐거웠다. 자신이 좋아하고 하고 싶은 일을 하는 사람에게서 느껴지는 밝은 행복 에너지를 받았다.</p>
+              </div>
+
+              {/* ── 하단 푸터 ──────────────────────────── */}
+              <div
+                className="mt-8 pt-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs"
+                style={{ borderTop: "3px double #2a2520", fontFamily: "var(--font-sans)", color: "#8a7f70" }}
+              >
+                <span>ⓒ 한국교육신문 www.hangyo.com 무단전재 및 재배포 금지</span>
+                <div className="flex items-center gap-3">
+                  <a
+                    href="https://www.hangyo.com/news/article.html?no=103792"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors hover:text-[#1a1714]"
+                    style={{ textDecoration: "underline", textUnderlineOffset: 3 }}
+                  >
+                    원문 기사 바로가기 ↗
+                  </a>
+                  <button
+                    onClick={() => setIsNewsModalOpen(false)}
+                    className="px-4 py-1.5 transition-colors hover:bg-[#1a1714]"
+                    style={{ background: "#2a2520", color: "#f0ebe0", fontFamily: "var(--font-sans)", fontSize: "0.75rem", letterSpacing: "0.08em" }}
+                  >
+                    닫기
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1103,12 +1154,12 @@ export default function App() {
                 <p className="mb-4">어릴 적 흰 도화지 위에 그림을 그리며 하얗게 지새우던 순수한 나날들은 작가 신금숙의 예술적 영감이 싹튼 가장 따뜻한 원점이었다. 수도여자사범대학교에서 예술적 소양을 깊이 다진 그는 천호중학교를 시작으로 미술 교사로서의 첫발을 내디뎠고, 오랜 교직 생활을 통해 학생들의 마음에 예술의 씨앗을 심어주며 묵묵히 헌신적인 발자취를 남겼다.</p>
                 <p className="mb-4">교직 은퇴 후에는 평생의 염원이었던 한옥 갤러리 '비단애'를 서울 성북동에 개관해 예술가들과의 깊은 교류의 장을 마련했으며, 최근 하남시 미사지구에 '델피토레그림방'을 열어 창작의 열정을 이어가고 있다.</p>
                 <p className="mb-4">예술의 길에 처음 들어섰을 때 그는 크고 웅장한 대형 오브제를 다루어야만 진정한 예술이라 여기며 치열한 고민을 겪기도 했다. 그러나 세월의 무게가 스며들면서 시선은 세상의 거대한 것에서 작고 여린 생명체들을 향해 따스하게 머물기 시작했다. 길 곁의 작은 들꽃 하나에도 깊은 애정을 담아 찰나의 아름다움을 영원으로 붙들어 매는 작업은 그렇게 시작되었다.</p>
-                <p className="mb-6">이 과정에서 신금숙 작가는 전통적인 실크 염색화의 깊이 있는 영역을 단단하게 개척해 냈고, 여기에 현대적인 아크릴 물감의 질감을 과감하게 접목함으로써 세상에 존재하지 않던 독창적인 예술 세계를 견고하게 구축해 가고 있다.</p><ul className="text-sm space-y-2" style={{ color: "#6b6360", borderTop: "1px solid #d4ccc4", paddingTop: "1.2rem" }}>
+                <p className="mb-6">이 과정에서 신금숙 작가는 전통적인 실크 염색화의 깊이 있는 영역을 단단하게 개척해 냈고, 여기에 현대적인 아크릴 물감의 질감을 과감하게 접목함으로써 세상에 존재하지 않던 독창적인 예술 세계를 견고하게 구축해 가고 있다.</p>
+                <ul className="text-sm space-y-2" style={{ color: "#6b6360", borderTop: "1px solid #d4ccc4", paddingTop: "1.2rem" }}>
                   <li>· 제1~4회 개인전 (2009.10., 2014.10., 2016.5., 2017.10. 울산 영상갤러리, 서울 예술의 전당)</li>
                   <li>· 현대미술대상 공모전 4회 입상(1986-88), 현대미술 초대전 2회(1988-89), 군자전 3회, 교원미전 5회, 오미랑 드러내다전, 바라보다 생각하다전, 가을향기전 외 그룹전 40여회 출품(1985-2014), 한마음회관 현대예술관 초대전 7회(1998-2014)</li>
                   <li>· 전) 울산중등미술교육연구회장</li>
                   <li>· 현) 델피토레그림방 대표, 전업미술가협회 회원</li>
-
                   <li className="pt-2">
                     <button
                       onClick={() => setIsNewsModalOpen(true)}
@@ -1119,7 +1170,6 @@ export default function App() {
                       <span className="text-xs">📰</span>
                     </button>
                   </li>
-                
                 </ul>
               </div>
             )}
